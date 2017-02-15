@@ -9,6 +9,7 @@ RUN apt-get install  -y \
         libssl-dev
 
 RUN docker-php-ext-install -j$(nproc) mbstring
+RUN docker-php-ext-install -j$(nproc) zip
 
 RUN pecl install mongodb
 RUN echo "extension=mongodb.so" > /usr/local/etc/php/conf.d/20-mongodb.ini
@@ -23,7 +24,7 @@ COPY ./ /var/www/
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-RUN cd /var/www && composer update
+RUN cd /var/www && composer update --no-interaction
 
 ENV PHP_TIMEZONE Europe/Bucharest
 
