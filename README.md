@@ -11,3 +11,15 @@ The basic ideea of CQRS with Event Sourcing is that in order to modify the state
 The result of the command are the events that are persisted in an Event Store.
 Those events are used to rehydrate the write models and to update the read models (the projections).
 Read more general [documentation about this implementation of CQRS here](https://github.com/xprt64/cqrs-es/blob/master/DOCUMENTATION.md).
+
+## Test it ##
+To run this application you must clone this repository the use `docker-compose` to start it.
+
+```
+git clone https://github.com/xprt64/todosample-cqrs-es todosample-cqrs-es
+cd todosample-cqrs-es
+composer update
+docker-compose up
+```
+Then, in your browser, access [http://localhost](http://localhost).
+

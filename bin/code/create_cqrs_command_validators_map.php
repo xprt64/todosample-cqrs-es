@@ -13,7 +13,7 @@ $classInfo = new \ReflectionClass(\Domain\Cqrs\CommandValidatorSubscriberTemplat
 
 $domainDirectory = dirname(dirname($classInfo->getFileName()));
 
-$commandValidatorsMapCodeGenerator = $container->get(CommandValidatorsMapCodeGenerator::class);
+    $commandValidatorsMapCodeGenerator = $container->get(CommandValidatorsMapCodeGenerator::class);
 
 $commandValidatorsMapCodeGenerator->generate(
     new \Bin\Logger(),
