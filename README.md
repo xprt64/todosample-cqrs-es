@@ -97,6 +97,27 @@ CommandValidatorSubscriber::class => function (ContainerInterface $container) {
 },
 ```
 
+## Automation tools ##
+In order to speed up development, some tools exists in the `bin/code` directory.
+These tools parse the source code in the Domain directory and build the folowing maps:
+- command handlers map: `create_cqrs_command_handlers_map.php`
+- command validators map: `create_cqrs_command_validators_map.php`
+- event handlers map: `create_cqrs_event_handlers_map.php`
+- read models list map: `create_cqrs_read_model_map.php`
+- saga event processors map: `create_cqrs_command_side_event_listener_map.php`
+
+You should run them all after any relevant modification of the source code by:
+```
+php -f bin/code/create_all_maps.php
+```
+
+A relevant modification is in any of the following cases:
+- a new command handler
+- a new event applier on the Aggregate is created
+- a new event handler is created
+- an existing command is renamed, moved
+- an existing event is renamed, moved
+
 ## Run it ##
 
 To run this application you must clone this repository the use `docker-compose` to start it.
