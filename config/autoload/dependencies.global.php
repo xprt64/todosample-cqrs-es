@@ -88,7 +88,7 @@ return [
             },
         ],
         'abstract_factories' => [
-            \UI\Factory\AbstractFactory::class,
+            \Infrastructure\Implementations\AbstractFactory::class,
         ],
     ],
 ];

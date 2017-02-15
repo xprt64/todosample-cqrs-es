@@ -120,7 +120,7 @@ A relevant modification is in any of the following cases:
 
 ## Run it ##
 
-To run this application you must clone this repository the use `docker-compose` to start it.
+To run this application you must clone this repository then use `docker-compose up` to start it.
 
 ```
 git clone https://github.com/xprt64/todosample-cqrs-es todosample-cqrs-es

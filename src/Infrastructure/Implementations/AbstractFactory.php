@@ -1,9 +1,9 @@
 <?php
-/******************************************************************************
- * Copyright (c) 2016 Constantin Galbenu <gica.galbenu@gmail.com>             *
- ******************************************************************************/
+/**
+ * Copyright (c) 2017 Constantin Galbenu <xprt64@gmail.com>
+ */
 
-namespace UI\Factory;
+namespace Infrastructure\Implementations;
 
 use Gica\Dependency\ConstructorAbstractFactory;
 use Interop\Container\ContainerInterface;
