@@ -573,16 +573,16 @@
         },
         {
             "name": "xprt64/cqrs-es",
-            "version": "1.0.10",
+            "version": "1.0.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/xprt64/cqrs-es.git",
-                "reference": "874a8502ecc0cdafc6c10a3bf294fe172608acef"
+                "reference": "4eebe537f18494a31d8a315b7ad0faca4438bada"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/xprt64/cqrs-es/zipball/874a8502ecc0cdafc6c10a3bf294fe172608acef",
-                "reference": "874a8502ecc0cdafc6c10a3bf294fe172608acef",
+                "url": "https://api.github.com/repos/xprt64/cqrs-es/zipball/4eebe537f18494a31d8a315b7ad0faca4438bada",
+                "reference": "4eebe537f18494a31d8a315b7ad0faca4438bada",
                 "shasum": ""
             },
             "require": {
@@ -614,7 +614,7 @@
                 }
             ],
             "description": "CQRS with Event Sourcing mini framework for PHP",
-            "time": "2017-02-15 09:36:54"
+            "time": "2017-02-15 18:53:22"
         },
         {
             "name": "xprt64/cqrs-eventstore-mongodb",
@@ -1421,16 +1421,16 @@
         },
         {
             "name": "zendframework/zend-servicemanager",
-            "version": "3.2.0",
+            "version": "3.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/zendframework/zend-servicemanager.git",
-                "reference": "596a2cde85a92c3366514ae0f55ea32ef59536ac"
+                "reference": "fe608d85457449889750fc6bf8d0859af59f56ec"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zendframework/zend-servicemanager/zipball/596a2cde85a92c3366514ae0f55ea32ef59536ac",
-                "reference": "596a2cde85a92c3366514ae0f55ea32ef59536ac",
+                "url": "https://api.github.com/repos/zendframework/zend-servicemanager/zipball/fe608d85457449889750fc6bf8d0859af59f56ec",
+                "reference": "fe608d85457449889750fc6bf8d0859af59f56ec",
                 "shasum": ""
             },
             "require": {
@@ -1445,7 +1445,7 @@
                 "mikey179/vfsstream": "^1.6",
                 "ocramius/proxy-manager": "^1.0 || ^2.0",
                 "phpbench/phpbench": "^0.10.0",
-                "phpunit/phpunit": "^4.6 || ^5.2.10",
+                "phpunit/phpunit": "^5.7 || ^6.0.6",
                 "zendframework/zend-coding-standard": "~1.0.0"
             },
             "suggest": {
@@ -1478,7 +1478,7 @@
                 "servicemanager",
                 "zf"
             ],
-            "time": "2016-12-19 20:04:51"
+            "time": "2017-02-15 15:29:48"
         },
         {
             "name": "zendframework/zend-stdlib",

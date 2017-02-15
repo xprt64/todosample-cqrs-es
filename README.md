@@ -118,6 +118,62 @@ A relevant modification is in any of the following cases:
 - an existing command is renamed, moved
 - an existing event is renamed, moved
 
+## Testing ##
+What is more important than testing? Nothing!
+
+You can create unit-tests for the Aggregates using `BddAggregateTestHelper`.
+Here is a sample unit-test:
+```php
+
+class TodoAggregateTest extends PHPUnit_Framework_TestCase
+{
+
+    public function test_handleAddNewTodo()
+    {
+        $command  = new AddNewTodo(
+            123, 'test'
+        );
+
+        $expectedEvent = new ANewTodoWasAdded('test');
+
+        $sut = new TodoAggregate();
+
+        $helper = new BddAggregateTestHelper(
+            new CommandHandlerSubscriber()
+        );
+
+        $helper->onAggregate($sut);
+        $helper->given();
+        $helper->when($command);
+        $helper->then($expectedEvent);
+
+        $this->assertTrue(true);//fake assertion
+    }
+
+    public function test_handleAddNewTodo_idempotent()
+    {
+        $command  = new AddNewTodo(
+            123, 'test'
+        );
+
+        $priorEvent = new ANewTodoWasAdded('test');
+
+        $sut = new TodoAggregate();
+
+        $helper = new BddAggregateTestHelper(
+            new CommandHandlerSubscriber()
+        );
+
+        $helper->onAggregate($sut);
+        $helper->given($priorEvent);
+        $helper->when($command);
+        $helper->then();//no events must be yielded
+
+        $this->assertTrue(true);//fake assertion
+    }
+}
+```
+
 ## Run it ##
 
 To run this application you must clone this repository then use `docker-compose up` to start it.
