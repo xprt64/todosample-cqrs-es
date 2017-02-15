@@ -1,0 +1,22 @@
+version: '3'
+
+services:
+  app:
+    build: .
+    ports:
+      - "80:80"
+    volumes:
+      - .:/var/www
+    depends_on:
+     - eventstore
+     - readmodelsdb
+
+  eventstore:
+    image: mongo:3.4
+    ports:
+      - "27018:27017"
+
+  readmodelsdb:
+    image: mongo:3.4
+    ports:
+      - "27019:27017"

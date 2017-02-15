@@ -1,0 +1,201 @@
+<?php
+/**
+ * Copyright (c) 2017 Constantin Galbenu <xprt64@gmail.com>
+ */
+use Domain\Read\Todo\TodoList\Todo;
+
+/** @see \UI\Action\HomePageAction::__invoke */
+
+/** @var $todos Todo[] */
+?>
+<?php $this->headTitle('Todo'); ?>
+<div class="todolist not-done">
+    <h1>Todos</h1>
+    <form method="post" id="add-todo">
+        <input id="add-todo-text" type="text" class="form-control add-todo" placeholder="Add todo">
+    </form>
+
+    <hr>
+    <ul id="list-of-todos" class="list-unstyled ui-sortable">
+
+    </ul>
+    <div class="alert alert-danger" id="error-container"></div>
+    <div class="todo-footer">
+        <strong><span class="count-todos">3</span></strong> Items left to be done
+    </div>
+</div>
+
+<script>
+	$(function () {
+
+		var $list = $('#list-of-todos');
+		var $form = $('#add-todo');
+		var $addTodoInput = $('#add-todo-text');
+		var $errorContainer = $('#error-container');
+		var $counter = $('.count-todos');
+
+		hideError();
+
+		var initialTodos = <?php echo json_encode(array_map(function (Todo $todo) {
+            return [
+                'id'   => $todo->getId(),
+                'text' => $todo->getText(),
+                'done' => $todo->isDone(),
+            ];
+        }, $todos));?>
+			//addTodo('test');
+
+			initialTodos.forEach(function (todo) {
+				addTodoMarkup(todo.id, todo.text, todo.done);
+			});
+
+		updateCounter();
+
+		$form.submit(function () {
+			addTodo($addTodoInput.val(), function(){
+				$addTodoInput.val('');
+			});
+			return false;
+		});
+
+		$(document).on('click', '#list-of-todos li input[type="checkbox"]', function () {
+			var $input = $(this);
+			var $todo = $input.parents('.todo');
+			var id = $todo.attr('id');
+
+			if ($input.prop('checked')) {
+				return tryToMarkToDoAsDone(id);
+			}
+			else {
+				return tryToUnmarkToDoAsDone(id);
+			}
+		});
+
+		$(document).on('click', '#list-of-todos li .remove-item', function () {
+			var $todo = $(this).parents('.todo');
+			var id = $todo.attr('id');
+
+			return tryToDeleteTodo(id);
+
+		});
+
+		function addTodo(text, callback) {
+			hideError();
+
+			postJsonThenJson('/todos/add', {
+				text: text,
+				id: Math.random().toString().replace('.', '')
+			}).then(function (rsp) {
+				if (rsp.success) {
+					addTodoMarkup(rsp.id, rsp.text);
+					if(callback)
+                    {
+	                    callback.call(null, rsp);
+                    }
+				}
+				else {
+					displayError(rsp.message);
+				}
+				updateCounter();
+			}).catch(function (error) {
+				displayError(error);
+			});
+		}
+
+		function tryToMarkToDoAsDone(id) {
+
+			postJsonThenJson('/todo/' + id + '/markAsDone', {}).then(function (rsp) {
+				if (rsp.success) {
+					markToDoAsDone(id);
+				}
+				else {
+					displayError(rsp.message);
+					unmarkToDoAsDone(id);
+				}
+				updateCounter();
+			}).catch(function (error) {
+				displayError(error);
+			});
+
+			return false;
+		}
+
+		function tryToUnmarkToDoAsDone(id) {
+
+			postJsonThenJson('/todo/' + id + '/unmarkAsDone', {}).then(function (rsp) {
+				if (rsp.success) {
+					unmarkToDoAsDone(id);
+				}
+				else {
+					displayError(rsp.message);
+					markToDoAsDone(id);
+				}
+				updateCounter();
+			}).catch(function (error) {
+				displayError(error);
+			});
+
+			return false;
+		}
+
+		function tryToDeleteTodo(id) {
+
+			postJsonThenJson('/todo/' + id + '/delete', {}).then(function (rsp) {
+				if (rsp.success) {
+					deleteTodo(id);
+				}
+				else {
+					displayError(rsp.message);
+				}
+				updateCounter();
+			}).catch(function (error) {
+				displayError(error);
+			});
+
+			return false;
+		}
+
+		function deleteTodo(id) {
+			var $todo = $list.find('#' + id);
+			$todo.remove();
+		}
+
+		function markToDoAsDone(id) {
+			var $todo = $list.find('#' + id);
+			$todo.addClass('done');
+			$todo.find('input[type="checkbox"]').prop('checked', true);
+		}
+
+		function unmarkToDoAsDone(id) {
+			var $todo = $list.find('#' + id);
+			$todo.removeClass('done');
+			$todo.find('input[type="checkbox"]').prop('checked', false);
+		}
+
+		function addTodoMarkup(id, text, done) {
+			$('<li class="ui-state-default todo' + (done ? ' done' : '') + '" id="' + id + '">\
+		        <div class="checkbox">\
+		        <label>\
+		        <input type="checkbox" value="' + id + '"' + (done ? ' checked="checked"' : '') + '>' + text + '</label>\
+		        <button class="btn btn-default btn-xs pull-right  remove-item"><span class="glyphicon glyphicon-remove"></span></button>\
+	        </div>\
+	        </li>').appendTo($list);
+
+			updateCounter();
+		}
+
+		function updateCounter() {
+			var count = $list.find('li').not('.done').length;
+
+			$counter.html(count);
+		}
+
+		function displayError(error) {
+			$errorContainer.html(error).show();
+		}
+
+		function hideError(error) {
+			$errorContainer.html('').hide();
+		}
+	});
+</script>
