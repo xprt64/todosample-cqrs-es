@@ -18,7 +18,7 @@ To run this application you must clone this repository the use `docker-compose` 
 ```
 git clone https://github.com/xprt64/todosample-cqrs-es todosample-cqrs-es
 cd todosample-cqrs-es
-composer update
+vendor/bin/composer update
 docker-compose up
 ```
 Then, in your browser, access [http://localhost](http://localhost).

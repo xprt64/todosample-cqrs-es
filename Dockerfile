@@ -19,9 +19,11 @@ RUN ["cp", "/etc/apache2/mods-available/rewrite.load", "/etc/apache2/mods-enable
 COPY deploy/php.ini /usr/local/etc/php/conf.d/
 COPY deploy/apache-site.conf  /etc/apache2/sites-enabled/000-default.conf
 
-#COPY ./ /var/www/
+COPY ./ /var/www/
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
+RUN composer update
 
 ENV PHP_TIMEZONE Europe/Bucharest
 
