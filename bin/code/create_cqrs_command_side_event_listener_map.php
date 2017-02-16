@@ -6,6 +6,7 @@
 use Bin\Logger;
 use Domain\Cqrs\EventSubscriberTemplate;
 use Gica\Cqrs\CodeGeneration\SagaEventListenerMapCodeGenerator;
+use Gica\FileSystem\OperatingSystemFileSystem;
 
 require_once dirname(__FILE__) . "/../bin_includes.php";
 
@@ -15,11 +16,12 @@ $domainDirectory = dirname(dirname($classInfo->getFileName()));
 
 global $container;
 
-$sagaEventListenerMapCodeGenerator = $container->get(SagaEventListenerMapCodeGenerator::class);
+$sagaEventListenerMapCodeGenerator = new SagaEventListenerMapCodeGenerator(
+    new \Bin\Logger(),
+    new OperatingSystemFileSystem()
+);
 
 $sagaEventListenerMapCodeGenerator->generate(
-    new Logger(),
-    null,
     EventSubscriberTemplate::class,
     dirname(dirname($classInfo->getFileName())),
     $domainDirectory . '/Cqrs/WriteSideEventSubscriber.php',

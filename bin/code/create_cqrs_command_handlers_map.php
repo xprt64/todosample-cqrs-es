@@ -5,6 +5,7 @@
 
 use Domain\Cqrs\CommandSubscriberTemplate;
 use Gica\Cqrs\CodeGeneration\CommandHandlersMapCodeGenerator;
+use Gica\FileSystem\OperatingSystemFileSystem;
 
 require_once dirname(__FILE__) . "/../bin_includes.php";
 
@@ -16,12 +17,12 @@ $domainPath = dirname(dirname($classInfo->getFileName()));
 
 $outputPath = dirname($classInfo->getFileName()) . '/CommandHandlerSubscriber.php';
 
-/** @var CommandHandlersMapCodeGenerator $commandHandlersMapGenerator */
-$commandHandlersMapGenerator = $container->get(CommandHandlersMapCodeGenerator::class);
+$commandHandlersMapGenerator = new CommandHandlersMapCodeGenerator(
+    new \Bin\Logger(),
+    new OperatingSystemFileSystem()
+);
 
 $commandHandlersMapGenerator->generate(
-    new \Bin\Logger(),
-    null,
     CommandSubscriberTemplate::class,
     $domainPath,
     $outputPath,

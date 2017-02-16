@@ -4,6 +4,7 @@
  */
 
 use Gica\Cqrs\CodeGeneration\CommandValidatorsMapCodeGenerator;
+use Gica\FileSystem\OperatingSystemFileSystem;
 
 require_once dirname(__FILE__) . "/../bin_includes.php";
 
@@ -13,11 +14,12 @@ $classInfo = new \ReflectionClass(\Domain\Cqrs\CommandValidatorSubscriberTemplat
 
 $domainDirectory = dirname(dirname($classInfo->getFileName()));
 
-    $commandValidatorsMapCodeGenerator = $container->get(CommandValidatorsMapCodeGenerator::class);
+$commandValidatorsMapCodeGenerator = new CommandValidatorsMapCodeGenerator(
+    new \Bin\Logger(),
+    new OperatingSystemFileSystem()
+);
 
 $commandValidatorsMapCodeGenerator->generate(
-    new \Bin\Logger(),
-    null,
     \Domain\Cqrs\CommandValidatorSubscriberTemplate::class,
     $domainDirectory . '/Write',
     $domainDirectory . '/Cqrs/CommandValidatorSubscriber.php',

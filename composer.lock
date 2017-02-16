@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "50496e901bd9f8e02d8692ea37238609",
-    "content-hash": "1e824a9c4b993c03b6627796473978e6",
+    "hash": "0a1be5ff10b5db1ab80283c66ba0b279",
+    "content-hash": "49869a9fba415cfe3966a7f8a9f1264c",
     "packages": [
         {
             "name": "aura/router",
@@ -533,16 +533,16 @@
         },
         {
             "name": "xprt64/code-analysis",
-            "version": "1.1.1",
+            "version": "1.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/xprt64/code-analysis.git",
-                "reference": "cab5dd6db6eb121500e7649753ddff2446f5d981"
+                "reference": "66e450d7c6ee5bd5f236f5e3e4976d780e57dbdc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/xprt64/code-analysis/zipball/cab5dd6db6eb121500e7649753ddff2446f5d981",
-                "reference": "cab5dd6db6eb121500e7649753ddff2446f5d981",
+                "url": "https://api.github.com/repos/xprt64/code-analysis/zipball/66e450d7c6ee5bd5f236f5e3e4976d780e57dbdc",
+                "reference": "66e450d7c6ee5bd5f236f5e3e4976d780e57dbdc",
                 "shasum": ""
             },
             "require": {
@@ -570,26 +570,26 @@
                 }
             ],
             "description": "code analysis for PHP",
-            "time": "2017-02-16 10:29:03"
+            "time": "2017-02-16 14:12:30"
         },
         {
             "name": "xprt64/cqrs-es",
-            "version": "1.1.1",
+            "version": "1.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/xprt64/cqrs-es.git",
-                "reference": "a8572c7ec78be10f849eac87bf3be8b7793058f3"
+                "reference": "d9adf311443d7f0456405ae2865117ab63080ea8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/xprt64/cqrs-es/zipball/a8572c7ec78be10f849eac87bf3be8b7793058f3",
-                "reference": "a8572c7ec78be10f849eac87bf3be8b7793058f3",
+                "url": "https://api.github.com/repos/xprt64/cqrs-es/zipball/d9adf311443d7f0456405ae2865117ab63080ea8",
+                "reference": "d9adf311443d7f0456405ae2865117ab63080ea8",
                 "shasum": ""
             },
             "require": {
                 "php": "^7.0",
                 "psr/log": "^1.0",
-                "xprt64/code-analysis": "^1.1.1",
+                "xprt64/code-analysis": "^1.1.2",
                 "xprt64/dependency": "^1.0",
                 "xprt64/filesystem": "^1.0.1",
                 "xprt64/iterator": "^1.0",
@@ -615,27 +615,29 @@
                 }
             ],
             "description": "CQRS with Event Sourcing mini framework for PHP",
-            "time": "2017-02-16 10:34:02"
+            "time": "2017-02-16 15:17:54"
         },
         {
             "name": "xprt64/cqrs-eventstore-mongodb",
-            "version": "1.0.6",
+            "version": "1.0.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/xprt64/cqrs-eventstore-mongodb.git",
-                "reference": "f44d76325a9661a3b0582a3d2521e59acd967d3c"
+                "reference": "b3d989f717aa5ca635a9947a5eb9147f02730785"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/xprt64/cqrs-eventstore-mongodb/zipball/f44d76325a9661a3b0582a3d2521e59acd967d3c",
-                "reference": "f44d76325a9661a3b0582a3d2521e59acd967d3c",
+                "url": "https://api.github.com/repos/xprt64/cqrs-eventstore-mongodb/zipball/b3d989f717aa5ca635a9947a5eb9147f02730785",
+                "reference": "b3d989f717aa5ca635a9947a5eb9147f02730785",
                 "shasum": ""
             },
             "require": {
                 "mongodb/mongodb": "^1.0.0",
                 "php": "^7.0",
-                "xprt64/cqrs-es": "^1.0",
+                "xprt64/cqrs-es": "^1",
                 "xprt64/iterator": "^1.0",
+                "xprt64/lib": "^1.0",
+                "xprt64/mongodb-lib": "^1.0",
                 "xprt64/types": "^1.0"
             },
             "require-dev": {
@@ -658,7 +660,7 @@
                 }
             ],
             "description": "MongoDB implementation for CQRS Event Store for PHP",
-            "time": "2017-02-15 11:04:39"
+            "time": "2017-02-16 13:25:37"
         },
         {
             "name": "xprt64/dependency",
@@ -783,20 +785,23 @@
         },
         {
             "name": "xprt64/lib",
-            "version": "0.0.1",
+            "version": "1.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/xprt64/lib.git",
-                "reference": "65c28c6ffdd84320e7751fb59cda21c54f2553b1"
+                "reference": "8e873e8f63715c674599148c9426aa6a2819b3e6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/xprt64/lib/zipball/65c28c6ffdd84320e7751fb59cda21c54f2553b1",
-                "reference": "65c28c6ffdd84320e7751fb59cda21c54f2553b1",
+                "url": "https://api.github.com/repos/xprt64/lib/zipball/8e873e8f63715c674599148c9426aa6a2819b3e6",
+                "reference": "8e873e8f63715c674599148c9426aa6a2819b3e6",
                 "shasum": ""
             },
             "require": {
                 "php": "^7.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^5.4"
             },
             "type": "library",
             "autoload": {
@@ -815,26 +820,63 @@
                 }
             ],
             "description": "library classes for PHP",
-            "time": "2017-01-18 09:58:44"
+            "time": "2017-02-16 13:19:49"
         },
         {
-            "name": "xprt64/types",
+            "name": "xprt64/mongodb-lib",
             "version": "1.0.2",
             "source": {
                 "type": "git",
-                "url": "https://github.com/xprt64/types.git",
-                "reference": "86897bedd9c9f8567a7f612a6bbac5966dca7dbc"
+                "url": "https://github.com/xprt64/mongodb-lib.git",
+                "reference": "ba34cb5b6a9f05e77626142e3a8ccc9330c1b522"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/xprt64/types/zipball/86897bedd9c9f8567a7f612a6bbac5966dca7dbc",
-                "reference": "86897bedd9c9f8567a7f612a6bbac5966dca7dbc",
+                "url": "https://api.github.com/repos/xprt64/mongodb-lib/zipball/ba34cb5b6a9f05e77626142e3a8ccc9330c1b522",
+                "reference": "ba34cb5b6a9f05e77626142e3a8ccc9330c1b522",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.0",
+                "xprt64/types": "^1.0.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Gica\\MongoDB\\Lib\\": "src/Gica/MongoDB/Lib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Constantin GALBENU",
+                    "email": "gica.galbenu@gmail.com"
+                }
+            ],
+            "description": "mongodb utility classes for PHP",
+            "time": "2017-02-16 08:00:50"
+        },
+        {
+            "name": "xprt64/types",
+            "version": "1.0.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/xprt64/types.git",
+                "reference": "a22e70d431db011ce88d612dccb9ac643017ae58"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/xprt64/types/zipball/a22e70d431db011ce88d612dccb9ac643017ae58",
+                "reference": "a22e70d431db011ce88d612dccb9ac643017ae58",
                 "shasum": ""
             },
             "require": {
                 "php": "^7.0",
                 "psr/http-message": "^1.0",
-                "xprt64/lib": "^0.0.1"
+                "xprt64/lib": "^1.0.1"
             },
             "type": "library",
             "autoload": {
@@ -853,7 +895,7 @@
                 }
             ],
             "description": "custom types for PHP",
-            "time": "2017-02-06 07:36:01"
+            "time": "2017-02-16 13:13:03"
         },
         {
             "name": "xprt64/xss",

@@ -4,6 +4,7 @@
  */
 
 use Gica\Cqrs\CodeGeneration\ReadModelEventListenersMapCodeGenerator;
+use Gica\FileSystem\OperatingSystemFileSystem;
 
 require_once dirname(__FILE__) . "/../bin_includes.php";
 
@@ -13,11 +14,12 @@ $classInfo = new \ReflectionClass(\Domain\Cqrs\EventSubscriberTemplate::class);
 
 $domainDirectory = dirname(dirname($classInfo->getFileName()));
 
-$readModelEventListenersMapCodeGenerator = $container->get(ReadModelEventListenersMapCodeGenerator::class);
+$readModelEventListenersMapCodeGenerator = new ReadModelEventListenersMapCodeGenerator(
+    new \Bin\Logger(),
+    new OperatingSystemFileSystem()
+);
 
 $readModelEventListenersMapCodeGenerator->generate(
-    new \Bin\Logger(),
-    null,
     \Domain\Cqrs\EventSubscriberTemplate::class,
     $domainDirectory . '/Read',
     $domainDirectory . '/Cqrs/EventSubscriber.php',

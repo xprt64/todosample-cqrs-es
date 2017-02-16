@@ -4,6 +4,7 @@
  */
 
 use Gica\Cqrs\CodeGeneration\ReadModelsMapCodeGenerator;
+use Gica\FileSystem\OperatingSystemFileSystem;
 
 require_once dirname(__FILE__) . "/../bin_includes.php";
 
@@ -13,11 +14,12 @@ $classInfo = new \ReflectionClass(\Domain\Cqrs\ReadModelMapTemplate::class);
 
 $domainDirectory = dirname(dirname($classInfo->getFileName()));
 
-$readModelsMapCodeGenerator = $container->get(ReadModelsMapCodeGenerator::class);
+$readModelsMapCodeGenerator = new ReadModelsMapCodeGenerator(
+    new \Bin\Logger(),
+    new OperatingSystemFileSystem()
+);
 
 $readModelsMapCodeGenerator->generate(
-    new \Bin\Logger(),
-    null,
     \Domain\Cqrs\ReadModelMapTemplate::class,
     $domainDirectory . '/Read',
     $domainDirectory . '/Cqrs/ReadModelMap.php',
