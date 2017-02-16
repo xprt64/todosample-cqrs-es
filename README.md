@@ -184,5 +184,7 @@ cd todosample-cqrs-es
 docker-compose up --build
 ```
 
+[![Deploy to Docker Cloud](https://files.cloud.docker.com/images/deploy-to-dockercloud.svg)](https://cloud.docker.com/stack/deploy/)
+
 Then, in your browser, access [http://localhost](http://localhost).
 
