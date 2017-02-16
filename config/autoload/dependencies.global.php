@@ -7,6 +7,7 @@ use Gica\Cqrs\Event\EventsApplier\EventsApplierOnAggregate;
 use Gica\Cqrs\EventStore\Mongo\EventSerializer;
 use Gica\Cqrs\EventStore\Mongo\FutureEventsStore;
 use Gica\Cqrs\EventStore\Mongo\MongoEventStore;
+use Gica\Lib\ObjectToArrayConverter;
 use Infrastructure\Implementations\AuthenticatedIdentityService;
 use Infrastructure\Implementations\EventStoreDatabase;
 use Infrastructure\Implementations\ReadModelsDatabase;
@@ -32,7 +33,7 @@ return [
         'factories'          => [
             Application::class                                    => ApplicationFactory::class,
             Helper\UrlHelper::class                               => Helper\UrlHelperFactory::class,
-            \Gica\Dependency\AbstractFactory::class                      => function (\Interop\Container\ContainerInterface $container) {
+            \Gica\Dependency\AbstractFactory::class               => function (\Interop\Container\ContainerInterface $container) {
                 return new \Gica\Dependency\ConstructorAbstractFactory($container);
             },
             \Domain\Dependency\Database\EventStoreDatabase::class => function (ContainerInterface $container) {
@@ -42,14 +43,15 @@ return [
                 return $container->get(ReadModelsDatabase::class);
             },
 
-            \Gica\Cqrs\EventStore::class =>  function (ContainerInterface $container) {
+            \Gica\Cqrs\EventStore::class => function (ContainerInterface $container) {
                 return new MongoEventStore(
                     $container->get(\Domain\Dependency\Database\EventStoreDatabase::class)->selectCollection('eventStore'),
-                    new EventSerializer()
+                    new EventSerializer(),
+                    new ObjectToArrayConverter()
                 );
             },
 
-            \Gica\Cqrs\FutureEventsStore::class =>  function (ContainerInterface $container) {
+            \Gica\Cqrs\FutureEventsStore::class => function (ContainerInterface $container) {
                 return new FutureEventsStore(
                     $container->get(\Domain\Dependency\Database\EventStoreDatabase::class)->selectCollection('futureEventStore'));
             },
