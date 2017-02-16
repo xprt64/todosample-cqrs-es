@@ -1,19 +1,15 @@
 app:
-  image: xprt64/cqrs:1.0.0
-  ports:
-    - "80:80"
-  volumes:
-    - .:/var/www
+  image: 'xprt64/todo-cqrs:1.0.0'
   links:
-   - eventstore
-   - readmodelsdb
-
+    - eventstore
+    - readmodelsdb
+  ports:
+    - '80:80'
 eventstore:
-  image: mongo:3.4
+  image: 'mongo:3.4'
   ports:
-    - "27018:27017"
-
+    - '27018:27017'
 readmodelsdb:
-  image: mongo:3.4
+  image: 'mongo:3.4'
   ports:
-    - "27019:27017"
+    - '27019:27017'
