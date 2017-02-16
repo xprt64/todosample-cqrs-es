@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "c0968d900a10750ebd98acd6703146e4",
-    "content-hash": "ba94614f24551b02f7867be9ebed93e0",
+    "hash": "50496e901bd9f8e02d8692ea37238609",
+    "content-hash": "1e824a9c4b993c03b6627796473978e6",
     "packages": [
         {
             "name": "aura/router",
@@ -533,16 +533,16 @@
         },
         {
             "name": "xprt64/code-analysis",
-            "version": "1.0.8",
+            "version": "1.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/xprt64/code-analysis.git",
-                "reference": "e8e84582cb4e9cc0d75fd980ebc8e08832489d37"
+                "reference": "cab5dd6db6eb121500e7649753ddff2446f5d981"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/xprt64/code-analysis/zipball/e8e84582cb4e9cc0d75fd980ebc8e08832489d37",
-                "reference": "e8e84582cb4e9cc0d75fd980ebc8e08832489d37",
+                "url": "https://api.github.com/repos/xprt64/code-analysis/zipball/cab5dd6db6eb121500e7649753ddff2446f5d981",
+                "reference": "cab5dd6db6eb121500e7649753ddff2446f5d981",
                 "shasum": ""
             },
             "require": {
@@ -550,7 +550,8 @@
                 "xprt64/filesystem": "^1.0.1"
             },
             "require-dev": {
-                "phpunit/phpunit": "^5.0"
+                "phpunit/php-code-coverage": "^4",
+                "phpunit/phpunit": "^5.4"
             },
             "type": "library",
             "autoload": {
@@ -569,26 +570,26 @@
                 }
             ],
             "description": "code analysis for PHP",
-            "time": "2017-02-14 16:54:56"
+            "time": "2017-02-16 10:29:03"
         },
         {
             "name": "xprt64/cqrs-es",
-            "version": "1.0.11",
+            "version": "1.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/xprt64/cqrs-es.git",
-                "reference": "4eebe537f18494a31d8a315b7ad0faca4438bada"
+                "reference": "a8572c7ec78be10f849eac87bf3be8b7793058f3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/xprt64/cqrs-es/zipball/4eebe537f18494a31d8a315b7ad0faca4438bada",
-                "reference": "4eebe537f18494a31d8a315b7ad0faca4438bada",
+                "url": "https://api.github.com/repos/xprt64/cqrs-es/zipball/a8572c7ec78be10f849eac87bf3be8b7793058f3",
+                "reference": "a8572c7ec78be10f849eac87bf3be8b7793058f3",
                 "shasum": ""
             },
             "require": {
                 "php": "^7.0",
                 "psr/log": "^1.0",
-                "xprt64/code-analysis": "^1.0.8",
+                "xprt64/code-analysis": "^1.1.1",
                 "xprt64/dependency": "^1.0",
                 "xprt64/filesystem": "^1.0.1",
                 "xprt64/iterator": "^1.0",
@@ -614,7 +615,7 @@
                 }
             ],
             "description": "CQRS with Event Sourcing mini framework for PHP",
-            "time": "2017-02-15 18:53:22"
+            "time": "2017-02-16 10:34:02"
         },
         {
             "name": "xprt64/cqrs-eventstore-mongodb",
