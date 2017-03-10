@@ -11,7 +11,7 @@ chdir(dirname(__DIR__));
 require __DIR__ . '/../vendor/autoload.php';
 
 /** @var \Interop\Container\ContainerInterface $container */
-$container = __DIR__ . '/../config/container.php';
+$container = require __DIR__ . '/../config/container.php';
 
 /** @var \Zend\Expressive\Application $app */
 $app = $container->get(\Zend\Expressive\Application::class);
