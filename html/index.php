@@ -8,10 +8,10 @@ if (php_sapi_name() === 'cli-server'
 }
 
 chdir(dirname(__DIR__));
-require 'vendor/autoload.php';
+require __DIR__ . '/../vendor/autoload.php';
 
 /** @var \Interop\Container\ContainerInterface $container */
-$container = require 'config/container.php';
+$container = __DIR__ . '/../config/container.php';
 
 /** @var \Zend\Expressive\Application $app */
 $app = $container->get(\Zend\Expressive\Application::class);
