@@ -1,0 +1,29 @@
+{
+  "name": "xprt64/cqrs-eventstore-mongodb",
+  "description": "MongoDB implementation for CQRS Event Store for PHP",
+  "minimum-stability": "stable",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Constantin GALBENU",
+      "email": "gica.galbenu@gmail.com"
+    }
+  ],
+  "require": {
+    "php": "^7.0",
+    "mongodb/mongodb": "^1.0.0",
+    "xprt64/types": "^1.0",
+    "xprt64/lib": "^1.0",
+    "xprt64/cqrs-es": "^1.2.4",
+    "xprt64/iterator": "^1.0",
+    "xprt64/mongodb-lib": "^1.0"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^5.4"
+  },
+  "autoload": {
+    "psr-4": {
+      "Gica\\Cqrs\\EventStore\\Mongo\\": "src/Gica/Cqrs/EventStore/Mongo/"
+    }
+  }
+}

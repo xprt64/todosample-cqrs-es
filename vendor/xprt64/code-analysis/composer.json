@@ -1,0 +1,30 @@
+{
+  "name": "xprt64/code-analysis",
+  "description": "code analysis for PHP",
+  "minimum-stability": "stable",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Constantin GALBENU",
+      "email": "gica.galbenu@gmail.com"
+    }
+  ],
+  "require": {
+    "php": "^7.0",
+    "xprt64/filesystem": "^1.0.1"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^5.4",
+    "phpunit/php-code-coverage": "^4"
+  },
+  "autoload": {
+    "psr-4": {
+      "Gica\\CodeAnalysis\\": "src/Gica/CodeAnalysis/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "tests\\Gica\\": "tests/Gica/"
+    }
+  }
+}

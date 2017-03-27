@@ -1,0 +1,24 @@
+{
+  "name": "xprt64/iterator",
+  "description": "Iterator utility for PHP",
+  "minimum-stability": "stable",
+  "license": "proprietary",
+  "authors": [
+    {
+      "name": "Constantin GALBENU",
+      "email": "gica.galbenu@gmail.com"
+    }
+  ],
+
+  "require": {
+    "php": "^7.0"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^5.4"
+  },
+  "autoload": {
+    "psr-4": {
+      "Gica\\Iterator\\": "src/Gica/Iterator/"
+    }
+  }
+}

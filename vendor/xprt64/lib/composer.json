@@ -1,0 +1,23 @@
+{
+  "name": "xprt64/lib",
+  "description": "library classes for PHP",
+  "minimum-stability": "dev",
+  "license": "proprietary",
+  "authors": [
+    {
+      "name": "Constantin GALBENU",
+      "email": "gica.galbenu@gmail.com"
+    }
+  ],
+  "require": {
+    "php": "^7.0"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^5.4"
+  },
+  "autoload": {
+    "psr-4": {
+      "Gica\\Lib\\": "src/Gica/Lib/"
+    }
+  }
+}

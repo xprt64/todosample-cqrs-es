@@ -1,0 +1,21 @@
+{
+  "name": "xprt64/mongodb-lib",
+  "description": "mongodb utility classes for PHP",
+  "minimum-stability": "stable",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Constantin GALBENU",
+      "email": "gica.galbenu@gmail.com"
+    }
+  ],
+   "require": {
+    "php": "^7.0",
+    "xprt64/types": "^1.0.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Gica\\MongoDB\\Lib\\": "src/Gica/MongoDB/Lib/"
+    }
+  }
+}
