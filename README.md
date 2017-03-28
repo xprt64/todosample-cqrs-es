@@ -189,12 +189,12 @@ class TodoAggregateTest extends PHPUnit_Framework_TestCase
 
 ## Run it ##
 
-To run this application you must clone this repository then use `docker-compose up` to start it.
+To run this application you must clone this repository then use `./start-app.sh` to start it.
 
 ```
 git clone https://github.com/xprt64/todosample-cqrs-es todosample-cqrs-es
 cd todosample-cqrs-es
-docker-compose up --build
+./start-app.sh
 ```
 
 [![Deploy to Docker Cloud](https://files.cloud.docker.com/images/deploy-to-dockercloud.svg)](https://cloud.docker.com/stack/deploy/)
