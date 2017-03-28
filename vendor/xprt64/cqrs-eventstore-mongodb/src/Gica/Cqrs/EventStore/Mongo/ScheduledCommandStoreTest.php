@@ -41,7 +41,8 @@ class ScheduledCommandStoreTest extends \PHPUnit_Framework_TestCase
         $command->method('getMessageId')
             ->willReturn('1234');
 
-        $commandScheduler->scheduleCommand($command);
+        /** @var ScheduledCommand $command */
+        $commandScheduler->scheduleCommand($command, 'aggregateClass', 123, '');
 
         $this->assertCount(1, $collection->find()->toArray());
 
@@ -53,6 +54,7 @@ class ScheduledCommandStoreTest extends \PHPUnit_Framework_TestCase
             ->method('__invoke')
             ->with($command);
 
+        /** @var callable $processor */
         $scheduledCommandStore->loadAndProcessScheduledCommands($processor);
 
         $this->assertCount(0, $collection->find()->toArray());
@@ -84,7 +86,10 @@ class ScheduledCommandStoreTest extends \PHPUnit_Framework_TestCase
         $command->method('getMessageId')
             ->willReturn('1234');
 
-        $commandScheduler->scheduleCommands([$command, $command, $command, $command]);
+        $commandScheduler->scheduleCommand($command, '', '', '');
+        $commandScheduler->scheduleCommand($command, '', '', '');
+        $commandScheduler->scheduleCommand($command, '', '', '');
+        $commandScheduler->scheduleCommand($command, '', '', '');
 
         $this->assertCount(1, $collection->find()->toArray());
     }

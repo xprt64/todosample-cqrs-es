@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "4cada4b50f9b20c46ea4add176e26bc9",
-    "content-hash": "48f347aa6f90979431e37b55d6fb4f2b",
+    "hash": "3d6787fddd5afb84062ef8dfe365d94c",
+    "content-hash": "cacbaa56e3b3303f1018d3375e678cc3",
     "packages": [
         {
             "name": "aura/router",
@@ -571,16 +571,16 @@
         },
         {
             "name": "xprt64/cqrs-es",
-            "version": "1.2.7",
+            "version": "2.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/xprt64/cqrs-es.git",
-                "reference": "88ebbc2216aed4853ed424256357dc99af9dec7d"
+                "reference": "c8ac208a86bbb4ae80a04490035426a7137a2dab"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/xprt64/cqrs-es/zipball/88ebbc2216aed4853ed424256357dc99af9dec7d",
-                "reference": "88ebbc2216aed4853ed424256357dc99af9dec7d",
+                "url": "https://api.github.com/repos/xprt64/cqrs-es/zipball/c8ac208a86bbb4ae80a04490035426a7137a2dab",
+                "reference": "c8ac208a86bbb4ae80a04490035426a7137a2dab",
                 "shasum": ""
             },
             "require": {
@@ -612,26 +612,26 @@
                 }
             ],
             "description": "CQRS with Event Sourcing mini framework for PHP",
-            "time": "2017-03-20 16:27:12"
+            "time": "2017-03-28 08:29:47"
         },
         {
             "name": "xprt64/cqrs-eventstore-mongodb",
-            "version": "1.2.8",
+            "version": "2.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/xprt64/cqrs-eventstore-mongodb.git",
-                "reference": "576c5065d2410d23e1987e9b1134be522ce2626c"
+                "reference": "b076f813df0cadddbebe84039a1f98d23f7d4553"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/xprt64/cqrs-eventstore-mongodb/zipball/576c5065d2410d23e1987e9b1134be522ce2626c",
-                "reference": "576c5065d2410d23e1987e9b1134be522ce2626c",
+                "url": "https://api.github.com/repos/xprt64/cqrs-eventstore-mongodb/zipball/b076f813df0cadddbebe84039a1f98d23f7d4553",
+                "reference": "b076f813df0cadddbebe84039a1f98d23f7d4553",
                 "shasum": ""
             },
             "require": {
                 "mongodb/mongodb": "^1.0.0",
                 "php": "^7.0",
-                "xprt64/cqrs-es": "^1.2.4",
+                "xprt64/cqrs-es": "^2.0.0",
                 "xprt64/iterator": "^1.0",
                 "xprt64/lib": "^1.0",
                 "xprt64/mongodb-lib": "^1.0",
@@ -657,7 +657,7 @@
                 }
             ],
             "description": "MongoDB implementation for CQRS Event Store for PHP",
-            "time": "2017-03-20 16:17:34"
+            "time": "2017-03-28 08:35:36"
         },
         {
             "name": "xprt64/dependency",

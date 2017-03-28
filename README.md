@@ -41,7 +41,9 @@ The read model has an inverted dependency (by using an `Interface`) on the infra
 #### Event store ####
 
 The event store has a MongoDB implementation.
-Future Events Store is the persistence for the scheduled events.
+Future Events Store is the persistence for the scheduled events. If the yielded event is an instance of `\Gica\Cqrs\Event\ScheduledEvent`
+then this event is not persisted in the `EventStore` but in the `FutureEventStore`.
+
 ```php
 \Gica\Cqrs\EventStore::class =>  function (ContainerInterface $container) {
     return new MongoEventStore(
@@ -70,35 +72,43 @@ Future Events Store is the persistence for the scheduled events.
 CommandValidatorSubscriber::class => function (ContainerInterface $container) {
     return $container->get(\Infrastructure\Cqrs\CommandValidatorSubscriber::class);
 },
+\Gica\Cqrs\Event\EventDispatcher::class => function (ContainerInterface $container) {
+    return new CompositeEventDispatcher(
+        new EventDispatcherBySubscriber(
+            $container->get(\Infrastructure\Cqrs\EventSubscriber::class)
+        ),
+        new EventDispatcherBySubscriber(
+            $container->get(\Infrastructure\Cqrs\WriteSideEventSubscriber::class)
+        )
+    );
+},
+
 ```
 
 #### Command dispatcher ####
 
 ```php
 \Gica\Cqrs\Command\CommandDispatcher::class => function (ContainerInterface $container) {
-    return new \Gica\Cqrs\Command\CommandDispatcher(
-        $container->get(\Gica\Cqrs\Command\CommandSubscriber::class),
-        new CompositeEventDispatcher(
-            new EventDispatcherBySubscriber(
-                $container->get(\Infrastructure\Cqrs\EventSubscriber::class)
-            ),
-            new EventDispatcherBySubscriber(
-                $container->get(\Infrastructure\Cqrs\WriteSideEventSubscriber::class)
-            )
+    return new CommandDispatcherWithValidator(
+        new DefaultCommandDispatcher(
+            new CommandHandlerSubscriber(),
+            $container->get(\Gica\Cqrs\Event\EventDispatcher::class),
+            new CommandApplier(),
+            $container->get(\Gica\Cqrs\Aggregate\AggregateRepository::class),
+            new ConcurrentProofFunctionCaller(),
+            new EventsApplierOnAggregate,
+            new DefaultMetadataFactory(new AuthenticatedIdentityService()),
+            new DefaultMetadataWrapper(),
+            $container->get(\Gica\Cqrs\FutureEventsStore::class),
+            $container->get(\Gica\Cqrs\Scheduling\CommandScheduler::class)
         ),
-        $container->get(\Gica\Cqrs\Command\CommandApplier::class),
-        $container->get(\Gica\Cqrs\Aggregate\AggregateRepository::class),
-        new ConcurrentProofFunctionCaller(),
-        $container->get(\Gica\Cqrs\Command\CommandValidator::class),
-        new AuthenticatedIdentityService(),
-        $container->get(\Gica\Cqrs\FutureEventsStore::class),
-        new EventsApplierOnAggregate
-    );
-},
+        $container->get(\Gica\Cqrs\Command\CommandValidator::class));
+}
 ```
 
 The command dispatcher has the possibility to detect and schedule future commands `yielded` by the Aggregate's command handlers.
-This feature is not used in this demo application.
+Scheduled commands are run in a cron job. See `deploy/cron`.
+[See more about command scheduler here](https://github.com/xprt64/cqrs-es/blob/master/src/Gica/Cqrs/Scheduling/CommandScheduler.php).
 
 ## Automation tools ##
 In order to speed up development, some tools exists in the `bin/code` directory.

@@ -1,0 +1,2 @@
+* * * * *   /usr/local/bin/php -f /var/www/bin/cron/play_scheduled_events.php >> /var/log/app/play_scheduled_events.log
+* * * * *   /usr/local/bin/php -f /var/www/bin/cron/play_scheduled_commands.php >> /var/log/app/play_scheduled_commands.log

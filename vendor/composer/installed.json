@@ -2434,53 +2434,6 @@
         "description": "code analysis for PHP"
     },
     {
-        "name": "xprt64/cqrs-es",
-        "version": "1.2.7",
-        "version_normalized": "1.2.7.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/xprt64/cqrs-es.git",
-            "reference": "88ebbc2216aed4853ed424256357dc99af9dec7d"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/xprt64/cqrs-es/zipball/88ebbc2216aed4853ed424256357dc99af9dec7d",
-            "reference": "88ebbc2216aed4853ed424256357dc99af9dec7d",
-            "shasum": ""
-        },
-        "require": {
-            "php": "^7.0",
-            "psr/log": "^1.0",
-            "xprt64/code-analysis": "^1.1.5",
-            "xprt64/dependency": "^1.0",
-            "xprt64/filesystem": "^1.0.1",
-            "xprt64/iterator": "^1.0",
-            "xprt64/types": "^1.0"
-        },
-        "require-dev": {
-            "phpunit/phpunit": "^5.4"
-        },
-        "time": "2017-03-20 16:27:12",
-        "type": "library",
-        "installation-source": "dist",
-        "autoload": {
-            "psr-4": {
-                "Gica\\Cqrs\\": "src/Gica/Cqrs/"
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "proprietary"
-        ],
-        "authors": [
-            {
-                "name": "Constantin GALBENU",
-                "email": "gica.galbenu@gmail.com"
-            }
-        ],
-        "description": "CQRS with Event Sourcing mini framework for PHP"
-    },
-    {
         "name": "mongodb/mongodb",
         "version": "1.1.2",
         "version_normalized": "1.1.2.0",
@@ -2539,53 +2492,6 @@
             "mongodb",
             "persistence"
         ]
-    },
-    {
-        "name": "xprt64/cqrs-eventstore-mongodb",
-        "version": "1.2.8",
-        "version_normalized": "1.2.8.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/xprt64/cqrs-eventstore-mongodb.git",
-            "reference": "576c5065d2410d23e1987e9b1134be522ce2626c"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/xprt64/cqrs-eventstore-mongodb/zipball/576c5065d2410d23e1987e9b1134be522ce2626c",
-            "reference": "576c5065d2410d23e1987e9b1134be522ce2626c",
-            "shasum": ""
-        },
-        "require": {
-            "mongodb/mongodb": "^1.0.0",
-            "php": "^7.0",
-            "xprt64/cqrs-es": "^1.2.4",
-            "xprt64/iterator": "^1.0",
-            "xprt64/lib": "^1.0",
-            "xprt64/mongodb-lib": "^1.0",
-            "xprt64/types": "^1.0"
-        },
-        "require-dev": {
-            "phpunit/phpunit": "^5.4"
-        },
-        "time": "2017-03-20 16:17:34",
-        "type": "library",
-        "installation-source": "dist",
-        "autoload": {
-            "psr-4": {
-                "Gica\\Cqrs\\EventStore\\Mongo\\": "src/Gica/Cqrs/EventStore/Mongo/"
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "MIT"
-        ],
-        "authors": [
-            {
-                "name": "Constantin GALBENU",
-                "email": "gica.galbenu@gmail.com"
-            }
-        ],
-        "description": "MongoDB implementation for CQRS Event Store for PHP"
     },
     {
         "name": "filp/whoops",
@@ -3064,5 +2970,99 @@
             }
         ],
         "description": "Prevents installation of composer packages with known security vulnerabilities: no API, simply require it"
+    },
+    {
+        "name": "xprt64/cqrs-es",
+        "version": "2.0.0",
+        "version_normalized": "2.0.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/xprt64/cqrs-es.git",
+            "reference": "c8ac208a86bbb4ae80a04490035426a7137a2dab"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/xprt64/cqrs-es/zipball/c8ac208a86bbb4ae80a04490035426a7137a2dab",
+            "reference": "c8ac208a86bbb4ae80a04490035426a7137a2dab",
+            "shasum": ""
+        },
+        "require": {
+            "php": "^7.0",
+            "psr/log": "^1.0",
+            "xprt64/code-analysis": "^1.1.5",
+            "xprt64/dependency": "^1.0",
+            "xprt64/filesystem": "^1.0.1",
+            "xprt64/iterator": "^1.0",
+            "xprt64/types": "^1.0"
+        },
+        "require-dev": {
+            "phpunit/phpunit": "^5.4"
+        },
+        "time": "2017-03-28 08:29:47",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Gica\\Cqrs\\": "src/Gica/Cqrs/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "proprietary"
+        ],
+        "authors": [
+            {
+                "name": "Constantin GALBENU",
+                "email": "gica.galbenu@gmail.com"
+            }
+        ],
+        "description": "CQRS with Event Sourcing mini framework for PHP"
+    },
+    {
+        "name": "xprt64/cqrs-eventstore-mongodb",
+        "version": "2.0.0",
+        "version_normalized": "2.0.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/xprt64/cqrs-eventstore-mongodb.git",
+            "reference": "b076f813df0cadddbebe84039a1f98d23f7d4553"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/xprt64/cqrs-eventstore-mongodb/zipball/b076f813df0cadddbebe84039a1f98d23f7d4553",
+            "reference": "b076f813df0cadddbebe84039a1f98d23f7d4553",
+            "shasum": ""
+        },
+        "require": {
+            "mongodb/mongodb": "^1.0.0",
+            "php": "^7.0",
+            "xprt64/cqrs-es": "^2.0.0",
+            "xprt64/iterator": "^1.0",
+            "xprt64/lib": "^1.0",
+            "xprt64/mongodb-lib": "^1.0",
+            "xprt64/types": "^1.0"
+        },
+        "require-dev": {
+            "phpunit/phpunit": "^5.4"
+        },
+        "time": "2017-03-28 08:35:36",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Gica\\Cqrs\\EventStore\\Mongo\\": "src/Gica/Cqrs/EventStore/Mongo/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Constantin GALBENU",
+                "email": "gica.galbenu@gmail.com"
+            }
+        ],
+        "description": "MongoDB implementation for CQRS Event Store for PHP"
     }
 ]

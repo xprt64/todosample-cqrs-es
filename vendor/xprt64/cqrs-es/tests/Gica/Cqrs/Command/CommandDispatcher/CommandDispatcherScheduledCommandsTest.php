@@ -9,18 +9,17 @@ namespace tests\Gica\Cqrs\Command\CommandDispatcher\CommandDispatcherScheduledCo
 use Gica\Cqrs\Aggregate\AggregateRepository;
 use Gica\Cqrs\Command;
 use Gica\Cqrs\Command\CommandApplier;
-use Gica\Cqrs\Command\CommandDispatcher;
-use Gica\Cqrs\Command\CommandDispatcher\AuthenticatedIdentityReaderService;
 use Gica\Cqrs\Command\CommandDispatcher\ConcurrentProofFunctionCaller;
+use Gica\Cqrs\Command\CommandDispatcher\DefaultCommandDispatcher;
 use Gica\Cqrs\Command\CommandSubscriber;
-use Gica\Cqrs\Command\CommandValidator;
+use Gica\Cqrs\Command\MetadataFactory\DefaultMetadataWrapper;
 use Gica\Cqrs\Event;
 use Gica\Cqrs\Event\EventDispatcher\EventDispatcherBySubscriber;
 use Gica\Cqrs\Event\EventsApplier\EventsApplierOnAggregate;
 use Gica\Cqrs\Event\EventWithMetaData;
+use Gica\Cqrs\Event\MetadataFactory\DefaultMetadataFactory;
 use Gica\Cqrs\EventStore\InMemory\InMemoryEventStore;
 use Gica\Cqrs\Scheduling\ScheduledCommand;
-use Gica\Cqrs\Scheduling\ScheduledCommandStore;
 
 class CommandDispatcherScheduledCommandsTest extends \PHPUnit_Framework_TestCase
 {
@@ -48,27 +47,18 @@ class CommandDispatcherScheduledCommandsTest extends \PHPUnit_Framework_TestCase
 
         $concurrentProofFunctionCaller = new ConcurrentProofFunctionCaller;
 
-        /** @var \Gica\Cqrs\Command\CommandDispatcher\AuthenticatedIdentityReaderService $authenticatedIdentity */
-        $authenticatedIdentity = $this->getMockBuilder(AuthenticatedIdentityReaderService::class)
-            ->getMock();
-
         $scheduledCommandStore = new StubScheduledCommandStore();
 
-        /** @var CommandValidator $commandValidator */
-        $commandValidator = $this->getMockBuilder(CommandValidator::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $commandDispatcher = new CommandDispatcher(
+        $commandDispatcher = new DefaultCommandDispatcher(
             $commandSubscriber,
             $eventDispatcher,
             $commandApplier,
             $aggregateRepository,
             $concurrentProofFunctionCaller,
-            $commandValidator,
-            $authenticatedIdentity,
-            null,
             $eventsApplierOnAggregate,
+            new DefaultMetadataFactory(),
+            new DefaultMetadataWrapper(),
+            null,
             $scheduledCommandStore
         );
 
@@ -118,7 +108,7 @@ class CommandDispatcherScheduledCommandsTest extends \PHPUnit_Framework_TestCase
     }
 }
 
-class StubScheduledCommandStore implements ScheduledCommandStore
+class StubScheduledCommandStore implements \Gica\Cqrs\Scheduling\CommandScheduler
 {
     /**
      * @var ScheduledCommand[]
@@ -130,14 +120,6 @@ class StubScheduledCommandStore implements ScheduledCommandStore
     }
 
     /**
-     * @param ScheduledCommand[] $scheduledCommands
-     */
-    public function scheduleCommands($scheduledCommands)
-    {
-        $this->commands = array_merge($this->commands, $scheduledCommands);
-    }
-
-    /**
      * @return ScheduledCommand[]
      */
     public function getCommands()
@@ -145,6 +127,19 @@ class StubScheduledCommandStore implements ScheduledCommandStore
         return $this->commands;
     }
 
+    public function scheduleCommand(ScheduledCommand $scheduledCommand, string $aggregateClass, $aggregateId, $commandMetadata)
+    {
+        $this->commands[] = $scheduledCommand;
+    }
+
+    public function cancelCommand($commandId)
+    {
+        foreach ($this->commands as $i => $scheduledCommand) {
+            if ((string)$scheduledCommand->getMessageId() == (string)$commandId) {
+                unset($this->commands[$i]);
+            }
+        }
+    }
 }
 
 class Command1 implements \Gica\Cqrs\Command

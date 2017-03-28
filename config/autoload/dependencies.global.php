@@ -1,15 +1,22 @@
 <?php
+use Gica\Cqrs\Command\CommandApplier;
+use Gica\Cqrs\Command\CommandDispatcher\CommandDispatcherWithValidator;
 use Gica\Cqrs\Command\CommandDispatcher\ConcurrentProofFunctionCaller;
+use Gica\Cqrs\Command\CommandDispatcher\DefaultCommandDispatcher;
 use Gica\Cqrs\Command\CommandValidation\CommandValidatorSubscriber;
+use Gica\Cqrs\Command\MetadataFactory\DefaultMetadataWrapper;
 use Gica\Cqrs\Event\EventDispatcher\CompositeEventDispatcher;
 use Gica\Cqrs\Event\EventDispatcher\EventDispatcherBySubscriber;
 use Gica\Cqrs\Event\EventsApplier\EventsApplierOnAggregate;
+use Gica\Cqrs\Event\MetadataFactory\DefaultMetadataFactory;
 use Gica\Cqrs\EventStore\Mongo\EventSerializer;
 use Gica\Cqrs\EventStore\Mongo\FutureEventsStore;
 use Gica\Cqrs\EventStore\Mongo\MongoEventStore;
+use Gica\Cqrs\Scheduling\CommandScheduler;
+use Gica\Cqrs\Scheduling\ScheduledCommandStore;
 use Gica\Lib\ObjectToArrayConverter;
+use Infrastructure\Cqrs\CommandHandlerSubscriber;
 use Infrastructure\Implementations\AuthenticatedIdentityService;
-use Infrastructure\Implementations\EventStoreDatabase;
 use Infrastructure\Implementations\ReadModelsDatabase;
 use Interop\Container\ContainerInterface;
 use Zend\Expressive\Application;
@@ -31,9 +38,9 @@ return [
         ],
         // Use 'factories' for services provided by callbacks/factory classes.
         'factories'          => [
-            Application::class                                    => ApplicationFactory::class,
-            Helper\UrlHelper::class                               => Helper\UrlHelperFactory::class,
-            \Gica\Dependency\AbstractFactory::class               => function (\Interop\Container\ContainerInterface $container) {
+            Application::class                      => ApplicationFactory::class,
+            Helper\UrlHelper::class                 => Helper\UrlHelperFactory::class,
+            \Gica\Dependency\AbstractFactory::class => function (\Interop\Container\ContainerInterface $container) {
                 return new \Gica\Dependency\ConstructorAbstractFactory($container);
             },
 
@@ -54,10 +61,6 @@ return [
                     $container->get(\Infrastructure\Implementations\EventStoreDatabase::class)->selectCollection('futureEventStore'));
             },
 
-            \Gica\Cqrs\Command\CommandSubscriber::class => function (ContainerInterface $container) {
-                return $container->get(\Infrastructure\Cqrs\CommandHandlerSubscriber::class);
-            },
-
             \Gica\Cqrs\Event\EventSubscriber::class => function (ContainerInterface $container) {
                 return $container->get(\Infrastructure\Cqrs\EventSubscriber::class);
             },
@@ -66,26 +69,46 @@ return [
                 return $container->get(\Infrastructure\Cqrs\CommandValidatorSubscriber::class);
             },
 
-            \Gica\Cqrs\Command\CommandDispatcher::class => function (ContainerInterface $container) {
-                return new \Gica\Cqrs\Command\CommandDispatcher(
-                    $container->get(\Gica\Cqrs\Command\CommandSubscriber::class),
-                    new CompositeEventDispatcher(
-                        new EventDispatcherBySubscriber(
-                            $container->get(\Infrastructure\Cqrs\EventSubscriber::class)
-                        ),
-                        new EventDispatcherBySubscriber(
-                            $container->get(\Infrastructure\Cqrs\WriteSideEventSubscriber::class)
-                        )
+            \Gica\Cqrs\Event\EventDispatcher::class => function (ContainerInterface $container) {
+                return new CompositeEventDispatcher(
+                    new EventDispatcherBySubscriber(
+                        $container->get(\Infrastructure\Cqrs\EventSubscriber::class)
                     ),
-                    $container->get(\Gica\Cqrs\Command\CommandApplier::class),
-                    $container->get(\Gica\Cqrs\Aggregate\AggregateRepository::class),
-                    new ConcurrentProofFunctionCaller(),
-                    $container->get(\Gica\Cqrs\Command\CommandValidator::class),
-                    new AuthenticatedIdentityService(),
-                    $container->get(\Gica\Cqrs\FutureEventsStore::class),
-                    new EventsApplierOnAggregate
+                    new EventDispatcherBySubscriber(
+                        $container->get(\Infrastructure\Cqrs\WriteSideEventSubscriber::class)
+                    )
                 );
             },
+
+            \Gica\Cqrs\Command\CommandDispatcher::class => function (ContainerInterface $container) {
+                return new CommandDispatcherWithValidator(
+                    new DefaultCommandDispatcher(
+                        new CommandHandlerSubscriber(),
+                        $container->get(\Gica\Cqrs\Event\EventDispatcher::class),
+                        new CommandApplier(),
+                        $container->get(\Gica\Cqrs\Aggregate\AggregateRepository::class),
+                        new ConcurrentProofFunctionCaller(),
+                        new EventsApplierOnAggregate,
+                        new DefaultMetadataFactory(new AuthenticatedIdentityService()),
+                        new DefaultMetadataWrapper(),
+                        $container->get(\Gica\Cqrs\FutureEventsStore::class),
+                        $container->get(\Gica\Cqrs\Scheduling\CommandScheduler::class)
+                    ),
+                    $container->get(\Gica\Cqrs\Command\CommandValidator::class));
+            },
+
+            CommandScheduler::class => function (ContainerInterface $container) {
+                $cqrs = $container->get(\Infrastructure\Implementations\EventStoreDatabase::class);
+                return new \Gica\Cqrs\EventStore\Mongo\CommandScheduler(
+                    $cqrs->selectCollection('scheduledCommands'));
+            },
+
+            ScheduledCommandStore::class => function (ContainerInterface $container) {
+                $cqrs = $container->get(\Infrastructure\Implementations\EventStoreDatabase::class);
+                return new \Gica\Cqrs\EventStore\Mongo\ScheduledCommandStore(
+                    $cqrs->selectCollection('scheduledCommands'));
+            },
+
         ],
         'abstract_factories' => [
             \Infrastructure\Implementations\AbstractFactory::class,

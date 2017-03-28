@@ -12,17 +12,7 @@ class CommandScheduler implements \Gica\Cqrs\Scheduling\CommandScheduler
 {
     use ScheduledCommandStoreTrait;
 
-    /**
-     * @param ScheduledCommand[] $scheduledCommands
-     */
-    public function scheduleCommands($scheduledCommands)
-    {
-        foreach ($scheduledCommands as $command) {
-            $this->scheduleCommand($command, '', '');
-        }
-    }
-
-    public function scheduleCommand(ScheduledCommand $scheduledCommand, string $aggregateClass, $aggregateId)
+    public function scheduleCommand(ScheduledCommand $scheduledCommand, string $aggregateClass, $aggregateId, $commandMetadata)
     {
         $messageIdToMongoId = $this->messageIdToMongoId($scheduledCommand->getMessageId());
 

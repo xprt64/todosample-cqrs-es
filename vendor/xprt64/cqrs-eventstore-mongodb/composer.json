@@ -14,7 +14,7 @@
     "mongodb/mongodb": "^1.0.0",
     "xprt64/types": "^1.0",
     "xprt64/lib": "^1.0",
-    "xprt64/cqrs-es": "^1.2.4",
+    "xprt64/cqrs-es": "^2.0.0",
     "xprt64/iterator": "^1.0",
     "xprt64/mongodb-lib": "^1.0"
   },

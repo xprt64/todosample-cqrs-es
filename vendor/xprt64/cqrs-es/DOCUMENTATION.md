@@ -286,10 +286,10 @@ A common usage of the `CompositeEventDispatcher` is to send events to the Read M
 ```php
 new CompositeEventDispatcher(
     new EventDispatcherBySubscriber(
-        $container->get(\Infrastructure\Cqrs\EventSubscriber::class)
+        $container->get(\Domain\Cqrs\EventSubscriber::class)
     ),
     new EventDispatcherBySubscriber(
-        $container->get(\Infrastructure\Cqrs\WriteSideEventSubscriber::class)
+        $container->get(\Domain\Cqrs\WriteSideEventSubscriber::class)
     )
 )
 ```
