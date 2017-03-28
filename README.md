@@ -28,31 +28,31 @@ An abstract factory is used by the application to create Read Models, Sagas and 
 
 ### The databases ###
 
+The read model has an inverted dependency (by using an `Interface`) on the infrastructure:
 ```php
-\Domain\Dependency\Database\EventStoreDatabase::class => function (ContainerInterface $container) {
-    return $container->get(\Infrastructure\Implementations\EventStoreDatabase::class);
-},
-\Domain\Dependency\Database\ReadModelsDatabase::class => function (ContainerInterface $container) {
+\Domain\Read\Dependency\Database\ReadModelsDatabase::class => function (ContainerInterface $container) {
     return $container->get(\Infrastructure\Implementations\ReadModelsDatabase::class);
 },
-```
 
-These database interfaces are used to invert the dependency from the Domain to Infrastructure.
+```
 
 ### CQRS specific configuration ###
 
 #### Event store ####
+
+The event store has a MongoDB implementation.
+Future Events Store is the persistence for the scheduled events.
 ```php
 \Gica\Cqrs\EventStore::class =>  function (ContainerInterface $container) {
     return new MongoEventStore(
-        $container->get(\Domain\Dependency\Database\EventStoreDatabase::class)->selectCollection('eventStore'),
+        $container->get(\Infrastructure\Implementations\EventStoreDatabase::class)->selectCollection('eventStore'),
         new EventSerializer()
     );
 },
 
 \Gica\Cqrs\FutureEventsStore::class =>  function (ContainerInterface $container) {
     return new FutureEventsStore(
-        $container->get(\Domain\Dependency\Database\EventStoreDatabase::class)->selectCollection('futureEventStore'));
+        $container->get(\Infrastructure\Implementations\EventStoreDatabase::class)->selectCollection('futureEventStore'));
 },
 ```
 
@@ -60,15 +60,15 @@ These database interfaces are used to invert the dependency from the Domain to I
 
 ```php
 \Gica\Cqrs\Command\CommandSubscriber::class => function (ContainerInterface $container) {
-    return $container->get(\Domain\Cqrs\CommandHandlerSubscriber::class);
+    return $container->get(\Infrastructure\Cqrs\CommandHandlerSubscriber::class);
 },
 
 \Gica\Cqrs\Event\EventSubscriber::class => function (ContainerInterface $container) {
-    return $container->get(\Domain\Cqrs\EventSubscriber::class);
+    return $container->get(\Infrastructure\Cqrs\EventSubscriber::class);
 },
 
 CommandValidatorSubscriber::class => function (ContainerInterface $container) {
-    return $container->get(\Domain\Cqrs\CommandValidatorSubscriber::class);
+    return $container->get(\Infrastructure\Cqrs\CommandValidatorSubscriber::class);
 },
 ```
 
@@ -80,10 +80,10 @@ CommandValidatorSubscriber::class => function (ContainerInterface $container) {
         $container->get(\Gica\Cqrs\Command\CommandSubscriber::class),
         new CompositeEventDispatcher(
             new EventDispatcherBySubscriber(
-                $container->get(\Domain\Cqrs\EventSubscriber::class)
+                $container->get(\Infrastructure\Cqrs\EventSubscriber::class)
             ),
             new EventDispatcherBySubscriber(
-                $container->get(\Domain\Cqrs\WriteSideEventSubscriber::class)
+                $container->get(\Infrastructure\Cqrs\WriteSideEventSubscriber::class)
             )
         ),
         $container->get(\Gica\Cqrs\Command\CommandApplier::class),
@@ -96,6 +96,9 @@ CommandValidatorSubscriber::class => function (ContainerInterface $container) {
     );
 },
 ```
+
+The command dispatcher has the possibility to detect and schedule future commands `yielded` by the Aggregate's command handlers.
+This feature is not used in this demo application.
 
 ## Automation tools ##
 In order to speed up development, some tools exists in the `bin/code` directory.

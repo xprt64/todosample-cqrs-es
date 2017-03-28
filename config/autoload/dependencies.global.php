@@ -36,16 +36,14 @@ return [
             \Gica\Dependency\AbstractFactory::class               => function (\Interop\Container\ContainerInterface $container) {
                 return new \Gica\Dependency\ConstructorAbstractFactory($container);
             },
-            \Domain\Dependency\Database\EventStoreDatabase::class => function (ContainerInterface $container) {
-                return $container->get(EventStoreDatabase::class);
-            },
-            \Domain\Dependency\Database\ReadModelsDatabase::class => function (ContainerInterface $container) {
+
+            \Domain\Read\Dependency\Database\ReadModelsDatabase::class => function (ContainerInterface $container) {
                 return $container->get(ReadModelsDatabase::class);
             },
 
             \Gica\Cqrs\EventStore::class => function (ContainerInterface $container) {
                 return new MongoEventStore(
-                    $container->get(\Domain\Dependency\Database\EventStoreDatabase::class)->selectCollection('eventStore'),
+                    $container->get(\Infrastructure\Implementations\EventStoreDatabase::class)->selectCollection('eventStore'),
                     new EventSerializer(),
                     new ObjectToArrayConverter()
                 );
@@ -53,19 +51,19 @@ return [
 
             \Gica\Cqrs\FutureEventsStore::class => function (ContainerInterface $container) {
                 return new FutureEventsStore(
-                    $container->get(\Domain\Dependency\Database\EventStoreDatabase::class)->selectCollection('futureEventStore'));
+                    $container->get(\Infrastructure\Implementations\EventStoreDatabase::class)->selectCollection('futureEventStore'));
             },
 
             \Gica\Cqrs\Command\CommandSubscriber::class => function (ContainerInterface $container) {
-                return $container->get(\Domain\Cqrs\CommandHandlerSubscriber::class);
+                return $container->get(\Infrastructure\Cqrs\CommandHandlerSubscriber::class);
             },
 
             \Gica\Cqrs\Event\EventSubscriber::class => function (ContainerInterface $container) {
-                return $container->get(\Domain\Cqrs\EventSubscriber::class);
+                return $container->get(\Infrastructure\Cqrs\EventSubscriber::class);
             },
 
             CommandValidatorSubscriber::class => function (ContainerInterface $container) {
-                return $container->get(\Domain\Cqrs\CommandValidatorSubscriber::class);
+                return $container->get(\Infrastructure\Cqrs\CommandValidatorSubscriber::class);
             },
 
             \Gica\Cqrs\Command\CommandDispatcher::class => function (ContainerInterface $container) {
@@ -73,10 +71,10 @@ return [
                     $container->get(\Gica\Cqrs\Command\CommandSubscriber::class),
                     new CompositeEventDispatcher(
                         new EventDispatcherBySubscriber(
-                            $container->get(\Domain\Cqrs\EventSubscriber::class)
+                            $container->get(\Infrastructure\Cqrs\EventSubscriber::class)
                         ),
                         new EventDispatcherBySubscriber(
-                            $container->get(\Domain\Cqrs\WriteSideEventSubscriber::class)
+                            $container->get(\Infrastructure\Cqrs\WriteSideEventSubscriber::class)
                         )
                     ),
                     $container->get(\Gica\Cqrs\Command\CommandApplier::class),

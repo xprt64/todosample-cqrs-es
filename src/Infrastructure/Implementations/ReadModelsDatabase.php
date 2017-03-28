@@ -10,7 +10,7 @@ use Infrastructure\Config\ConfigProxy;
 use MongoDB\Client;
 use MongoDB\Collection;
 
-class ReadModelsDatabase implements \Domain\Dependency\Database\ReadModelsDatabase
+class ReadModelsDatabase implements \Domain\Read\Dependency\Database\ReadModelsDatabase
 {
 
     /**

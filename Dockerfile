@@ -24,7 +24,7 @@ COPY ./ /var/www/
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-RUN cd /var/www && composer update --no-interaction
+#RUN cd /var/www && composer update --no-interaction
 
 ENV PHP_TIMEZONE Europe/Bucharest
 

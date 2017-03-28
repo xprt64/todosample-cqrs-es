@@ -19,7 +19,16 @@ class HomePageActionTest extends \PHPUnit_Framework_TestCase
 
     public function testResponse()
     {
-        $homePage = new HomePageAction($this->router->reveal(), null);
+        $renderer = $this->getMockBuilder(\Zend\Expressive\Template\TemplateRendererInterface::class)->getMock();
+        $renderer
+            ->method('render')
+            ->willReturn('test');
+
+        $todoListReadModel = $this->getMockBuilder(\Domain\Read\Todo\TodoList::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $homePage = new HomePageAction($renderer, $todoListReadModel);
         $response = $homePage(new ServerRequest(['/']), new Response(), function () {
         });
 

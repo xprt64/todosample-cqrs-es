@@ -3,7 +3,7 @@
  * Copyright (c) 2017 Constantin Galbenu <xprt64@gmail.com>
  */
 
-use Domain\Cqrs\CommandHandlerSubscriber;
+use Infrastructure\Cqrs\CommandHandlerSubscriber;
 use Domain\Write\Todo\TodoAggregate;
 use Domain\Write\Todo\TodoAggregate\Command\AddNewTodo;
 use Domain\Write\Todo\TodoAggregate\Event\ANewTodoWasAdded;

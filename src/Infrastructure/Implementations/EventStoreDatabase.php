@@ -10,7 +10,7 @@ use Infrastructure\Config\ConfigProxy;
 use MongoDB\Client;
 use MongoDB\Collection;
 
-class EventStoreDatabase implements \Domain\Dependency\Database\EventStoreDatabase
+class EventStoreDatabase
 {
 
     /**

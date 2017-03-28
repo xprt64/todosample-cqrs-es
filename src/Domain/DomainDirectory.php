@@ -1,9 +1,9 @@
 <?php
-/******************************************************************************
- * Copyright (c) 2017 Constantin Galbenu <gica.galbenu@gmail.com>             *
- ******************************************************************************/
+/**
+ * Copyright (c) 2017 Constantin Galbenu <xprt64@gmail.com>
+ */
 
-namespace Crm;
+namespace Domain;
 
 
 class DomainDirectory

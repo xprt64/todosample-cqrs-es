@@ -3,7 +3,7 @@
  * Copyright (c) 2017 Constantin Galbenu <xprt64@gmail.com>
  */
 
-namespace Domain\Cqrs;
+namespace Infrastructure\Cqrs;
 
 use Gica\Cqrs\Event\EventSubscriber\EventSubscriberByMap;
 

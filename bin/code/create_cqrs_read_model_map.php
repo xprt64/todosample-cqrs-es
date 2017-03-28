@@ -3,6 +3,7 @@
  * Copyright (c) 2017 Constantin Galbenu <xprt64@gmail.com>
  */
 
+use Domain\DomainDirectory;
 use Gica\Cqrs\CodeGeneration\ReadModelsMapCodeGenerator;
 use Gica\FileSystem\OperatingSystemFileSystem;
 
@@ -10,9 +11,7 @@ require_once dirname(__FILE__) . "/../bin_includes.php";
 
 global $container;
 
-$classInfo = new \ReflectionClass(\Domain\Cqrs\ReadModelMapTemplate::class);
-
-$domainDirectory = dirname(dirname($classInfo->getFileName()));
+$classInfo = new \ReflectionClass(\Infrastructure\Cqrs\ReadModelMapTemplate::class);
 
 $readModelsMapCodeGenerator = new ReadModelsMapCodeGenerator(
     new \Bin\Logger(),
@@ -20,8 +19,8 @@ $readModelsMapCodeGenerator = new ReadModelsMapCodeGenerator(
 );
 
 $readModelsMapCodeGenerator->generate(
-    \Domain\Cqrs\ReadModelMapTemplate::class,
-    $domainDirectory . '/Read',
-    $domainDirectory . '/Cqrs/ReadModelMap.php',
+    \Infrastructure\Cqrs\ReadModelMapTemplate::class,
+    DomainDirectory::getDomainDirectory() . '/Read',
+    \Infrastructure\Cqrs\Directory::getDirectory() . '/ReadModelMap.php',
     'ReadModelMap'
 );

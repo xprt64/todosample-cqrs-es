@@ -6,7 +6,7 @@
 namespace Domain\Read\Todo;
 
 
-use Domain\Dependency\Database\ReadModelsDatabase;
+use Domain\Read\Dependency\Database\ReadModelsDatabase;
 use Domain\Read\Todo\TodoList\Todo;
 use Domain\Read\Todo\TodoList\TodoFactory;
 use Domain\Write\Todo\TodoAggregate\Event\ANewTodoWasAdded;

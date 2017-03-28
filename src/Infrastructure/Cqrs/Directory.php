@@ -3,12 +3,12 @@
  * Copyright (c) 2017 Constantin Galbenu <xprt64@gmail.com>
  */
 
-namespace Domain;
+namespace Infrastructure\Cqrs;
 
 
-class DomainDirectory
+class Directory
 {
-    public static function getDomainDirectory()
+    public static function getDirectory()
     {
         return __DIR__;
     }
