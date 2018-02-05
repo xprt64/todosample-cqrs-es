@@ -6,7 +6,7 @@
 use Bin\Logger;
 use Infrastructure\Cqrs\EventSubscriberTemplate;
 use Domain\DomainDirectory;
-use Gica\Cqrs\CodeGeneration\SagaEventListenerMapCodeGenerator;
+use Dudulina\CodeGeneration\SagaEventListenerMapCodeGenerator;
 use Gica\FileSystem\OperatingSystemFileSystem;
 
 require_once dirname(__FILE__) . "/../bin_includes.php";

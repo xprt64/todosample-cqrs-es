@@ -7,7 +7,7 @@ namespace bin\cron;
 global $container;
 
 use Bin\EnsureSingletonScript;
-use Gica\Cqrs\Scheduling\ScheduledCommandsDispatcher;
+use Dudulina\Scheduling\ScheduledCommandsDispatcher;
 
 require_once dirname(__FILE__) . "/../bin_includes.php";
 

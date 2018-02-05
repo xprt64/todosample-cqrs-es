@@ -6,7 +6,7 @@
 namespace Domain\Write\Todo\TodoAggregate\Command;
 
 
-use Gica\Cqrs\Command;
+use Dudulina\Command;
 
 class UnmarkTodoAsDone implements Command
 {

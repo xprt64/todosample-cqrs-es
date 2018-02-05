@@ -4,7 +4,7 @@
  */
 
 use Domain\DomainDirectory;
-use Gica\Cqrs\CodeGeneration\ReadModelsMapCodeGenerator;
+use Dudulina\CodeGeneration\ReadModelsMapCodeGenerator;
 use Gica\FileSystem\OperatingSystemFileSystem;
 
 require_once dirname(__FILE__) . "/../bin_includes.php";

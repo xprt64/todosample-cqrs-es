@@ -4,7 +4,7 @@
 namespace Domain\Write\Todo\TodoAggregate\Event;
 
 
-use Gica\Cqrs\Event;
+use Dudulina\Event;
 
 class ANewTodoWasAdded implements Event
 {

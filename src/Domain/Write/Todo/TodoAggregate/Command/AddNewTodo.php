@@ -4,7 +4,7 @@
 namespace Domain\Write\Todo\TodoAggregate\Command;
 
 
-use Gica\Cqrs\Command;
+use Dudulina\Command;
 
 class AddNewTodo implements Command
 {

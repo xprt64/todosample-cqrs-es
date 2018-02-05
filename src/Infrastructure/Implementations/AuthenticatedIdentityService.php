@@ -6,7 +6,7 @@
 namespace Infrastructure\Implementations;
 
 
-use Gica\Cqrs\Command\CommandDispatcher\AuthenticatedIdentityReaderService;
+use Dudulina\Command\CommandDispatcher\AuthenticatedIdentityReaderService;
 
 class AuthenticatedIdentityService implements AuthenticatedIdentityReaderService
 {

@@ -7,7 +7,7 @@ use Infrastructure\Cqrs\CommandHandlerSubscriber;
 use Domain\Write\Todo\TodoAggregate;
 use Domain\Write\Todo\TodoAggregate\Command\AddNewTodo;
 use Domain\Write\Todo\TodoAggregate\Event\ANewTodoWasAdded;
-use Gica\Cqrs\Testing\BddAggregateTestHelper;
+use Dudulina\Testing\BddAggregateTestHelper;
 
 
 class TodoAggregateTest extends PHPUnit_Framework_TestCase

@@ -1,19 +1,19 @@
 <?php
-use Gica\Cqrs\Command\CommandApplier;
-use Gica\Cqrs\Command\CommandDispatcher\CommandDispatcherWithValidator;
-use Gica\Cqrs\Command\CommandDispatcher\ConcurrentProofFunctionCaller;
-use Gica\Cqrs\Command\CommandDispatcher\DefaultCommandDispatcher;
-use Gica\Cqrs\Command\CommandValidation\CommandValidatorSubscriber;
-use Gica\Cqrs\Command\MetadataFactory\DefaultMetadataWrapper;
-use Gica\Cqrs\Event\EventDispatcher\CompositeEventDispatcher;
-use Gica\Cqrs\Event\EventDispatcher\EventDispatcherBySubscriber;
-use Gica\Cqrs\Event\EventsApplier\EventsApplierOnAggregate;
-use Gica\Cqrs\Event\MetadataFactory\DefaultMetadataFactory;
-use Gica\Cqrs\EventStore\Mongo\EventSerializer;
-use Gica\Cqrs\EventStore\Mongo\FutureEventsStore;
-use Gica\Cqrs\EventStore\Mongo\MongoEventStore;
-use Gica\Cqrs\Scheduling\CommandScheduler;
-use Gica\Cqrs\Scheduling\ScheduledCommandStore;
+use Dudulina\Command\CommandApplier;
+use Dudulina\Command\CommandDispatcher\CommandDispatcherWithValidator;
+use Dudulina\Command\CommandDispatcher\ConcurrentProofFunctionCaller;
+use Dudulina\Command\CommandDispatcher\DefaultCommandDispatcher;
+use Dudulina\Command\CommandValidation\CommandValidatorSubscriber;
+use Dudulina\Command\MetadataFactory\DefaultMetadataWrapper;
+use Dudulina\Event\EventDispatcher\CompositeEventDispatcher;
+use Dudulina\Event\EventDispatcher\EventDispatcherBySubscriber;
+use Dudulina\Event\EventsApplier\EventsApplierOnAggregate;
+use Dudulina\Event\MetadataFactory\DefaultMetadataFactory;
+use Mongolina\EventSerializer;
+use Mongolina\FutureEventsStore;
+use Mongolina\MongoEventStore;
+use Dudulina\Scheduling\CommandScheduler;
+use Dudulina\Scheduling\ScheduledCommandStore;
 use Gica\Lib\ObjectToArrayConverter;
 use Infrastructure\Cqrs\CommandHandlerSubscriber;
 use Infrastructure\Implementations\AuthenticatedIdentityService;
@@ -48,21 +48,21 @@ return [
                 return $container->get(ReadModelsDatabase::class);
             },
 
-            \Gica\Cqrs\EventStore::class => function (ContainerInterface $container) {
+            \Dudulina\EventStore::class => function (ContainerInterface $container) {
                 return new MongoEventStore(
                     $container->get(\Infrastructure\Implementations\EventStoreDatabase::class)->selectCollection('eventStore'),
                     new EventSerializer(),
                     new ObjectToArrayConverter(),
-                    $container->get(\Gica\Cqrs\EventStore\Mongo\EventFromCommitExtractor::class)
+                    $container->get(\Mongolina\EventFromCommitExtractor::class)
                 );
             },
 
-            \Gica\Cqrs\FutureEventsStore::class => function (ContainerInterface $container) {
+            \Dudulina\FutureEventsStore::class => function (ContainerInterface $container) {
                 return new FutureEventsStore(
                     $container->get(\Infrastructure\Implementations\EventStoreDatabase::class)->selectCollection('futureEventStore'));
             },
 
-            \Gica\Cqrs\Event\EventSubscriber::class => function (ContainerInterface $container) {
+            \Dudulina\Event\EventSubscriber::class => function (ContainerInterface $container) {
                 return $container->get(\Infrastructure\Cqrs\EventSubscriber::class);
             },
 
@@ -70,7 +70,7 @@ return [
                 return $container->get(\Infrastructure\Cqrs\CommandValidatorSubscriber::class);
             },
 
-            \Gica\Cqrs\Event\EventDispatcher::class => function (ContainerInterface $container) {
+            \Dudulina\Event\EventDispatcher::class => function (ContainerInterface $container) {
                 return new CompositeEventDispatcher(
                     new EventDispatcherBySubscriber(
                         $container->get(\Infrastructure\Cqrs\EventSubscriber::class)
@@ -81,32 +81,32 @@ return [
                 );
             },
 
-            \Gica\Cqrs\Command\CommandDispatcher::class => function (ContainerInterface $container) {
+            \Dudulina\Command\CommandDispatcher::class => function (ContainerInterface $container) {
                 return new CommandDispatcherWithValidator(
                     new DefaultCommandDispatcher(
                         new CommandHandlerSubscriber(),
-                        $container->get(\Gica\Cqrs\Event\EventDispatcher::class),
+                        $container->get(\Dudulina\Event\EventDispatcher::class),
                         new CommandApplier(),
-                        $container->get(\Gica\Cqrs\Aggregate\AggregateRepository::class),
+                        $container->get(\Dudulina\Aggregate\AggregateRepository::class),
                         new ConcurrentProofFunctionCaller(),
                         new EventsApplierOnAggregate,
                         new DefaultMetadataFactory(new AuthenticatedIdentityService()),
                         new DefaultMetadataWrapper(),
-                        $container->get(\Gica\Cqrs\FutureEventsStore::class),
-                        $container->get(\Gica\Cqrs\Scheduling\CommandScheduler::class)
+                        $container->get(\Dudulina\FutureEventsStore::class),
+                        $container->get(\Dudulina\Scheduling\CommandScheduler::class)
                     ),
-                    $container->get(\Gica\Cqrs\Command\CommandValidator::class));
+                    $container->get(\Dudulina\Command\CommandValidator::class));
             },
 
             CommandScheduler::class => function (ContainerInterface $container) {
                 $cqrs = $container->get(\Infrastructure\Implementations\EventStoreDatabase::class);
-                return new \Gica\Cqrs\EventStore\Mongo\CommandScheduler(
+                return new \Mongolina\CommandScheduler(
                     $cqrs->selectCollection('scheduledCommands'));
             },
 
             ScheduledCommandStore::class => function (ContainerInterface $container) {
                 $cqrs = $container->get(\Infrastructure\Implementations\EventStoreDatabase::class);
-                return new \Gica\Cqrs\EventStore\Mongo\ScheduledCommandStore(
+                return new \Mongolina\ScheduledCommandStore(
                     $cqrs->selectCollection('scheduledCommands'));
             },
 

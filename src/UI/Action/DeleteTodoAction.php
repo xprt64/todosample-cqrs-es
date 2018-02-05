@@ -6,7 +6,7 @@
 namespace UI\Action;
 
 use Domain\Write\Todo\TodoAggregate\Command\DeleteTodo;
-use Gica\Cqrs\Command\CommandDispatcher;
+use Dudulina\Command\CommandDispatcher;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Zend\Diactoros\Response\JsonResponse;

@@ -16,7 +16,7 @@ class AbstractFactory implements AbstractFactoryInterface
      */
     public function canCreate(ContainerInterface $container, $requestedName)
     {
-        $namespaces = ['UI\\', 'Domain\\', 'Gica\\', 'Infrastructure\\'];
+        $namespaces = ['UI\\', 'Domain\\', 'Gica\\', 'Infrastructure\\', 'Dudulina\\', 'Mongolina\\'];
 
         foreach ($namespaces as $namespace)
             if (0 === stripos($requestedName, $namespace))

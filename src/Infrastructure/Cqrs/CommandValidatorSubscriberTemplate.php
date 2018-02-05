@@ -5,7 +5,7 @@
 
 namespace Infrastructure\Cqrs;
 
-use Gica\Cqrs\Command\CommandValidation\CommandValidatorSubscriberByMap;
+use Dudulina\Command\CommandValidation\CommandValidatorSubscriberByMap;
 
 /**
  * --- This is just a template ---

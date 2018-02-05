@@ -5,7 +5,7 @@
 
 namespace Infrastructure\Cqrs;
 
-use Gica\Cqrs\Event\EventSubscriber\EventSubscriberByMap;
+use Dudulina\Event\EventSubscriber\EventSubscriberByMap;
 
 /**
  * --- This is just a template ---

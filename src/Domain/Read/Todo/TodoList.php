@@ -13,8 +13,8 @@ use Domain\Write\Todo\TodoAggregate\Event\ANewTodoWasAdded;
 use Domain\Write\Todo\TodoAggregate\Event\ATodoWasDeleted;
 use Domain\Write\Todo\TodoAggregate\Event\ATodoWasMarkedAsDone;
 use Domain\Write\Todo\TodoAggregate\Event\ATodoWasUnmarkedAsDone;
-use Gica\Cqrs\Event\MetaData;
-use Gica\Cqrs\ReadModel\ReadModelInterface;
+use Dudulina\Event\MetaData;
+use Dudulina\ReadModel\ReadModelInterface;
 use Gica\Iterator\IteratorTransformer\IteratorMapper;
 use MongoDB\BSON\UTCDateTime;
 

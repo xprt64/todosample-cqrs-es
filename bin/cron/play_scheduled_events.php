@@ -7,7 +7,7 @@ namespace bin\cron;
 global $container;
 
 use Bin\EnsureSingletonScript;
-use Gica\Cqrs\Scheduling\ScheduledEventsPlayer;
+use Dudulina\Scheduling\ScheduledEventsPlayer;
 
 require_once dirname(__FILE__) . "/../bin_includes.php";
 

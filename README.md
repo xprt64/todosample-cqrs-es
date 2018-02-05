@@ -41,18 +41,18 @@ The read model has an inverted dependency (by using an `Interface`) on the infra
 #### Event store ####
 
 The event store has a MongoDB implementation.
-Future Events Store is the persistence for the scheduled events. If the yielded event is an instance of `\Gica\Cqrs\Event\ScheduledEvent`
+Future Events Store is the persistence for the scheduled events. If the yielded event is an instance of `\Dudulina\Event\ScheduledEvent`
 then this event is not persisted in the `EventStore` but in the `FutureEventStore`.
 
 ```php
-\Gica\Cqrs\EventStore::class =>  function (ContainerInterface $container) {
+\Dudulina\EventStore::class =>  function (ContainerInterface $container) {
     return new MongoEventStore(
         $container->get(\Infrastructure\Implementations\EventStoreDatabase::class)->selectCollection('eventStore'),
         new EventSerializer()
     );
 },
 
-\Gica\Cqrs\FutureEventsStore::class =>  function (ContainerInterface $container) {
+\Dudulina\FutureEventsStore::class =>  function (ContainerInterface $container) {
     return new FutureEventsStore(
         $container->get(\Infrastructure\Implementations\EventStoreDatabase::class)->selectCollection('futureEventStore'));
 },
@@ -61,18 +61,18 @@ then this event is not persisted in the `EventStore` but in the `FutureEventStor
 #### Event subscribers and command subscribers ####
 
 ```php
-\Gica\Cqrs\Command\CommandSubscriber::class => function (ContainerInterface $container) {
+\Dudulina\Command\CommandSubscriber::class => function (ContainerInterface $container) {
     return $container->get(\Infrastructure\Cqrs\CommandHandlerSubscriber::class);
 },
 
-\Gica\Cqrs\Event\EventSubscriber::class => function (ContainerInterface $container) {
+\Dudulina\Event\EventSubscriber::class => function (ContainerInterface $container) {
     return $container->get(\Infrastructure\Cqrs\EventSubscriber::class);
 },
 
 CommandValidatorSubscriber::class => function (ContainerInterface $container) {
     return $container->get(\Infrastructure\Cqrs\CommandValidatorSubscriber::class);
 },
-\Gica\Cqrs\Event\EventDispatcher::class => function (ContainerInterface $container) {
+\Dudulina\Event\EventDispatcher::class => function (ContainerInterface $container) {
     return new CompositeEventDispatcher(
         new EventDispatcherBySubscriber(
             $container->get(\Infrastructure\Cqrs\EventSubscriber::class)
@@ -88,21 +88,21 @@ CommandValidatorSubscriber::class => function (ContainerInterface $container) {
 #### Command dispatcher ####
 
 ```php
-\Gica\Cqrs\Command\CommandDispatcher::class => function (ContainerInterface $container) {
+\Dudulina\Command\CommandDispatcher::class => function (ContainerInterface $container) {
     return new CommandDispatcherWithValidator(
         new DefaultCommandDispatcher(
             new CommandHandlerSubscriber(),
-            $container->get(\Gica\Cqrs\Event\EventDispatcher::class),
+            $container->get(\Dudulina\Event\EventDispatcher::class),
             new CommandApplier(),
-            $container->get(\Gica\Cqrs\Aggregate\AggregateRepository::class),
+            $container->get(\Dudulina\Aggregate\AggregateRepository::class),
             new ConcurrentProofFunctionCaller(),
             new EventsApplierOnAggregate,
             new DefaultMetadataFactory(new AuthenticatedIdentityService()),
             new DefaultMetadataWrapper(),
-            $container->get(\Gica\Cqrs\FutureEventsStore::class),
-            $container->get(\Gica\Cqrs\Scheduling\CommandScheduler::class)
+            $container->get(\Dudulina\FutureEventsStore::class),
+            $container->get(\Dudulina\Scheduling\CommandScheduler::class)
         ),
-        $container->get(\Gica\Cqrs\Command\CommandValidator::class));
+        $container->get(\Dudulina\Command\CommandValidator::class));
 }
 ```
 

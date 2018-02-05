@@ -5,7 +5,7 @@
 
 namespace Infrastructure\Cqrs;
 
-use Gica\Cqrs\Command\CommandSubscriber\CommandSubscriberByMap;
+use Dudulina\Command\CommandSubscriber\CommandSubscriberByMap;
 
 /**
  * --- This is just a template ---

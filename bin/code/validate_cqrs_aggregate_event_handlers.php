@@ -5,7 +5,7 @@
 
 use Infrastructure\Cqrs\CommandSubscriberTemplate;
 use Domain\DomainDirectory;
-use Gica\Cqrs\CodeGeneration\AggregateEventApplyHandlerValidator;
+use Dudulina\CodeGeneration\AggregateEventApplyHandlerValidator;
 use Gica\FileSystem\OperatingSystemFileSystem;
 
 require_once dirname(__FILE__) . "/../bin_includes.php";
