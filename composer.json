@@ -12,8 +12,8 @@
     "zendframework/zend-expressive-aurarouter": "^1.0",
     "zendframework/zend-servicemanager": "^2.7.3 || ^3.0",
     "zendframework/zend-expressive-zendviewrenderer": "^1.0",
-    "xprt64/cqrs-es": "2.0.0",
-    "xprt64/cqrs-eventstore-mongodb": "2.0.0"
+    "xprt64/cqrs-eventstore-mongodb": "2.1.16",
+    "xprt64/cqrs-es": "^3.0"
   },
   "require-dev": {
     "phpunit/phpunit": "^4.8",

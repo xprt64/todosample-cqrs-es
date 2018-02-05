@@ -52,7 +52,8 @@ return [
                 return new MongoEventStore(
                     $container->get(\Infrastructure\Implementations\EventStoreDatabase::class)->selectCollection('eventStore'),
                     new EventSerializer(),
-                    new ObjectToArrayConverter()
+                    new ObjectToArrayConverter(),
+                    $container->get(\Gica\Cqrs\EventStore\Mongo\EventFromCommitExtractor::class)
                 );
             },
 

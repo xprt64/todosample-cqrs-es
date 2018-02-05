@@ -1,10 +1,9 @@
-FROM php:7.1.1-apache
+FROM php:7.1.2-apache
 
 # Install dependencies
-RUN apt-get update
-RUN apt-get install  -y \
-        curl \
+RUN apt-get update && apt-get install  -y \
         git \
+        curl \
         pkg-config \
         libssl-dev
 
