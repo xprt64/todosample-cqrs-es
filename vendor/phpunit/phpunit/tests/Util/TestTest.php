@@ -11,7 +11,8 @@
 if (!defined('TEST_FILES_PATH')) {
     define(
         'TEST_FILES_PATH',
-        dirname(__DIR__) . DIRECTORY_SEPARATOR . DIRECTORY_SEPARATOR
+        dirname(__DIR__) . DIRECTORY_SEPARATOR .
+        '_files' . DIRECTORY_SEPARATOR
     );
 }
 

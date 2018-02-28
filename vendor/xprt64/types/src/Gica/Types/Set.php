@@ -29,7 +29,7 @@ abstract class Set
             $value = $this->convertPrimitiveValue($value);
         }
 
-        $this->primitiveValues = $primitiveValues;
+        $this->primitiveValues = array_unique($primitiveValues, \SORT_REGULAR);
         $this->nullable = $nullable;
     }
 
@@ -96,14 +96,14 @@ abstract class Set
         return new static($values);
     }
 
-    public static function faraPrivilegii()
-    {
-        return self::fromPrimitive([]);
-    }
-
     public function isNull()
     {
         return null === $this->primitiveValues;
+    }
+
+    public function isEmpty()
+    {
+        return empty($this->primitiveValues);
     }
 
     abstract public function getAll();
@@ -113,9 +113,9 @@ abstract class Set
         return count(array_intersect($this->primitiveValues, $other->primitiveValues)) === count($other->primitiveValues);
     }
 
-    public function containsAny(self $other)
+    public function containsAny(?self $other)
     {
-        return count(array_intersect($this->primitiveValues, $other->primitiveValues)) > 0;
+        return null !== $other && count(array_intersect($this->primitiveValues, $other->primitiveValues)) > 0;
     }
 
     public function containsPrimitive($primitiveValue)
@@ -134,19 +134,48 @@ abstract class Set
 
     protected function hasPrimitiveInteger()
     {
-        return false;
+        return is_integer($this->getAll()[0]);
     }
 
-    public function merge(self $other)
+    public function merge(?self $other)
     {
         $primitives = $this->primitiveValues;
 
-        foreach ($other->primitiveValues as $primitiveValue) {
-            if (!in_array($primitiveValue, $primitives)) {
-                $primitives[] = $primitiveValue;
+        if ($other) {
+            foreach ($other->primitiveValues as $primitiveValue) {
+                if (!in_array($primitiveValue, $primitives)) {
+                    $primitives[] = $primitiveValue;
+                }
             }
         }
 
         return new static($primitives);
     }
+
+    public function diff(?self $other)
+    {
+        $primitives = [];
+
+        if ($other) {
+            foreach ($this->primitiveValues as $primitiveValue) {
+                if (!in_array($primitiveValue, $other->primitiveValues)) {
+                    $primitives[] = $primitiveValue;
+                }
+            }
+        }
+
+        return new static($primitives);
+    }
+
+    public function equals(?self $operand):bool
+    {
+        $a = $this->toPrimitive();
+        $b = $operand->toPrimitive();
+
+        sort($a);
+        sort($b);
+
+        return null !== $operand && $a === $b;
+    }
+
 }

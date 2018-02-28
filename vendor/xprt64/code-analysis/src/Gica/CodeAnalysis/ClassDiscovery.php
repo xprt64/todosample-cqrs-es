@@ -39,10 +39,8 @@ class ClassDiscovery
     }
 
 
-    public function discover($directory)
+    public function discover(\Iterator $files)
     {
-        $files = $this->getFilesInDirectory($directory);
-
         $files = $this->filterFiles($files);
 
         foreach ($files as $file) {
@@ -90,9 +88,9 @@ class ClassDiscovery
         return $this->discoveredClasses;
     }
 
-    protected function filterFiles(array $files)
+    protected function filterFiles(\Iterator $files)
     {
-        return array_filter($files, function ($file) {
+        return new \CallbackFilterIterator($files, function ($file) {
             return $this->isListenerFileName($file);
         });
     }
@@ -118,8 +116,6 @@ class ClassDiscovery
      */
     private function sort($discoveredClasses)
     {
-        usort($discoveredClasses, $this->classSorter);
-
-        return $discoveredClasses;
+        return $this->classSorter->sortClasses($discoveredClasses);
     }
 }

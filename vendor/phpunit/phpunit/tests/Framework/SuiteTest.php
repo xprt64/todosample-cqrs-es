@@ -232,7 +232,7 @@ class Framework_SuiteTest extends PHPUnit_Framework_TestCase
             'DontSkipInheritedClass'
         );
 
-        $dir = dirname(__DIR__) . DIRECTORY_SEPARATOR . DIRECTORY_SEPARATOR;
+        $dir = dirname(__DIR__) . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR . 'Inheritance' . DIRECTORY_SEPARATOR;
 
         $suite->addTestFile($dir . 'InheritanceA.php');
         $suite->addTestFile($dir . 'InheritanceB.php');

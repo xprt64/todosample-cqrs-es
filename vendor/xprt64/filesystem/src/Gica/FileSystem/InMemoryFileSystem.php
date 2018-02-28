@@ -283,4 +283,9 @@ class InMemoryFileSystem implements \Gica\FileSystem\FileSystemInterface
     {
         // TODO: Implement copyFile() method.
     }
+
+    public function fileSetModifiedDate($path, \DateTimeImmutable $modifiedDate)
+    {
+        // TODO: Implement fileSetModifiedDate() method.
+    }
 }

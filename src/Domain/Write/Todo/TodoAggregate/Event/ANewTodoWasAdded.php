@@ -9,18 +9,29 @@ use Dudulina\Event;
 class ANewTodoWasAdded implements Event
 {
     /**
-     * @var
+     * @var string
      */
     private $text;
+    /**
+     * @var string
+     */
+    private $id;
 
     public function __construct(
-        $text
+        string $id,
+        string $text
     )
     {
         $this->text = $text;
+        $this->id = $id;
     }
 
-    public function getText()
+    public function getId(): string
+    {
+        return $this->id;
+    }
+
+    public function getText():string
     {
         return $this->text;
     }

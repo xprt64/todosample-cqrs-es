@@ -1,28 +1,28 @@
 <?php
 /**
- * Copyright (c) 2017 Constantin Galbenu <xprt64@gmail.com>
+ * Copyright (c) 2018 Constantin Galbenu <xprt64@gmail.com>
  */
 
 use Bin\Logger;
-use Infrastructure\Cqrs\EventSubscriberTemplate;
 use Domain\DomainDirectory;
 use Dudulina\CodeGeneration\SagaEventListenerMapCodeGenerator;
 use Gica\FileSystem\OperatingSystemFileSystem;
+use Infrastructure\InfrastructureDirectory;
 
-require_once dirname(__FILE__) . "/../bin_includes.php";
+require_once __DIR__ . '/../bin_includes.php';
 
-$classInfo = new \ReflectionClass(EventSubscriberTemplate::class);
+$classInfo = new \ReflectionClass(\Infrastructure\Cqrs\EventSubscriberTemplate::class);
 
 global $container;
 
 $sagaEventListenerMapCodeGenerator = new SagaEventListenerMapCodeGenerator(
-    new \Bin\Logger(),
+    new Logger(),
     new OperatingSystemFileSystem()
 );
 
 $sagaEventListenerMapCodeGenerator->generate(
-    EventSubscriberTemplate::class,
-    dirname(dirname($classInfo->getFileName())),
-    \Infrastructure\Cqrs\Directory::getDirectory() . '/WriteSideEventSubscriber.php',
-    'WriteSideEventSubscriber'
+    \Infrastructure\Cqrs\EventSubscriberTemplate::class,
+    new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator(DomainDirectory::getDomainDirectory())),
+    InfrastructureDirectory::getInfrastructureDirectory() . '/Cqrs/SagaEventSubscriber.php',
+    'SagaEventSubscriber'
 );

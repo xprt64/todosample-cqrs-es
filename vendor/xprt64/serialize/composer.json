@@ -1,0 +1,24 @@
+{
+  "name": "xprt64/serialize",
+  "description": "Simple object (de)serializer for PHP",
+  "minimum-stability": "stable",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Constantin GALBENU",
+      "email": "gica.galbenu@gmail.com"
+    }
+  ],
+  "require": {
+    "php": "^7.0",
+    "xprt64/code-analysis": "^1.1.4"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^5.4"
+  },
+  "autoload": {
+    "psr-4": {
+      "Gica\\Serialize\\": "src/Gica/Serialize/"
+    }
+  }
+}

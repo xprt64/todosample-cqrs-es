@@ -1,24 +1,22 @@
 <?php
 /**
- * Copyright (c) 2017 Constantin Galbenu <xprt64@gmail.com>
+ * Copyright (c) 2018 Constantin Galbenu <xprt64@gmail.com>
  */
 
-use Infrastructure\Cqrs\CommandSubscriberTemplate;
+use Bin\Logger;
 use Domain\DomainDirectory;
 use Dudulina\CodeGeneration\AggregateEventApplyHandlerValidator;
-use Gica\FileSystem\OperatingSystemFileSystem;
 
-require_once dirname(__FILE__) . "/../bin_includes.php";
+require_once __DIR__ . '/../bin_includes.php';
 
 global $container;
 
-$classInfo = new \ReflectionClass(CommandSubscriberTemplate::class);
+$classInfo = new \ReflectionClass(\Infrastructure\Cqrs\CommandSubscriberTemplate::class);
 
 $aggregateEventHandlerValidator = new AggregateEventApplyHandlerValidator(
-    new \Bin\Logger(),
-    new OperatingSystemFileSystem()
+    new Logger()
 );
 
 $aggregateEventHandlerValidator->validate(
-    DomainDirectory::getDomainDirectory() . '/Write'
+    new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator(DomainDirectory::getDomainDirectory() . '/Write'))
 );

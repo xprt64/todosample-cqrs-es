@@ -295,7 +295,10 @@ class ZendViewRenderer implements TemplateRendererInterface
      */
     private function mergeViewModel($name, ModelInterface $model)
     {
-        $params = $this->mergeParams($name, $model->getVariables());
+        $params = $this->mergeParams(
+            $name,
+            $this->normalizeParams($model->getVariables())
+        );
         $model->setVariables($params);
         $model->setTemplate($name);
         return $model;
@@ -339,6 +342,7 @@ class ZendViewRenderer implements TemplateRendererInterface
         if ($layout) {
             $layout->addChild($viewModel);
             $viewModel = $layout;
+            $viewModel->setVariables($this->mergeParams(self::TEMPLATE_ALL, []));
         }
 
         return $viewModel;

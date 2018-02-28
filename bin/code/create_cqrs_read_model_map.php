@@ -1,26 +1,28 @@
 <?php
 /**
- * Copyright (c) 2017 Constantin Galbenu <xprt64@gmail.com>
+ * Copyright (c) 2018 Constantin Galbenu <xprt64@gmail.com>
  */
 
+use Bin\Logger;
 use Domain\DomainDirectory;
 use Dudulina\CodeGeneration\ReadModelsMapCodeGenerator;
 use Gica\FileSystem\OperatingSystemFileSystem;
+use Infrastructure\InfrastructureDirectory;
 
-require_once dirname(__FILE__) . "/../bin_includes.php";
+require_once __DIR__ . '/../bin_includes.php';
 
 global $container;
 
 $classInfo = new \ReflectionClass(\Infrastructure\Cqrs\ReadModelMapTemplate::class);
 
 $readModelsMapCodeGenerator = new ReadModelsMapCodeGenerator(
-    new \Bin\Logger(),
+    new Logger(),
     new OperatingSystemFileSystem()
 );
 
 $readModelsMapCodeGenerator->generate(
     \Infrastructure\Cqrs\ReadModelMapTemplate::class,
-    DomainDirectory::getDomainDirectory() . '/Read',
-    \Infrastructure\Cqrs\Directory::getDirectory() . '/ReadModelMap.php',
+    new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator(DomainDirectory::getDomainDirectory())),
+    InfrastructureDirectory::getInfrastructureDirectory() . '/Cqrs/ReadModelMap.php',
     'ReadModelMap'
 );

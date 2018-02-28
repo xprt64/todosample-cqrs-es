@@ -20,7 +20,8 @@ class ByClassConstantDependencySorterTest extends \PHPUnit_Framework_TestCase
             new \ReflectionClass(Class2::class),
         ];
 
-        usort($classes, $sut);
+        /** @var \ReflectionClass[] $classes */
+        $classes = $sut->sortClasses($classes);
 
         $this->assertEquals(Class1::class, $classes[0]->getName());
         $this->assertEquals(Class2::class, $classes[1]->getName());

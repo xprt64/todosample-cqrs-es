@@ -139,6 +139,11 @@ class OperatingSystemFileSystem implements FileSystemInterface
         return chown($path, $owner);
     }
 
+    public function fileSetModifiedDate($path, \DateTimeImmutable $modifiedDate)
+    {
+        return touch($path, $modifiedDate->getTimestamp());
+    }
+
     public function fileSetPermissions($path, $permissions)
     {
         return chmod($path, $permissions);

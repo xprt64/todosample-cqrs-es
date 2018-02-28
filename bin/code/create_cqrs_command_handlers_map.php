@@ -1,29 +1,32 @@
 <?php
 /**
- * Copyright (c) 2017 Constantin Galbenu <xprt64@gmail.com>
+ * Copyright (c) 2018 Constantin Galbenu <xprt64@gmail.com>
  */
 
-use Infrastructure\Cqrs\CommandSubscriberTemplate;
+use Bin\Logger;
 use Domain\DomainDirectory;
 use Dudulina\CodeGeneration\CommandHandlersMapCodeGenerator;
 use Gica\FileSystem\OperatingSystemFileSystem;
+use Infrastructure\InfrastructureDirectory;
+use Psr\Container\ContainerInterface;
 
-require_once dirname(__FILE__) . "/../bin_includes.php";
+require_once __DIR__ . '/../bin_includes.php';
 
+/** @var ContainerInterface $container */
 global $container;
 
-$classInfo = new \ReflectionClass(CommandSubscriberTemplate::class);
+$classInfo = new \ReflectionClass(\Infrastructure\Cqrs\CommandSubscriberTemplate::class);
 
-$outputPath = \Infrastructure\Cqrs\Directory::getDirectory() . '/CommandHandlerSubscriber.php';
+$outputPath = InfrastructureDirectory::getInfrastructureDirectory() . '/Cqrs/CommandHandlerSubscriber.php';
 
 $commandHandlersMapGenerator = new CommandHandlersMapCodeGenerator(
-    new \Bin\Logger(),
+    new Logger(),
     new OperatingSystemFileSystem()
 );
 
 $commandHandlersMapGenerator->generate(
-    CommandSubscriberTemplate::class,
-    DomainDirectory::getDomainDirectory(),
+    \Infrastructure\Cqrs\CommandSubscriberTemplate::class,
+    new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator(DomainDirectory::getDomainDirectory() . '/Write')),
     $outputPath,
     'CommandHandlerSubscriber'
 );

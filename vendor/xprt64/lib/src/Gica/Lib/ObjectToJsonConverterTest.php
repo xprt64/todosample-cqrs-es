@@ -3,7 +3,7 @@
  * Copyright (c) 2016 Constantin Galbenu <gica.galbenu@gmail.com>             *
  ******************************************************************************/
 
-namespace tests\unit\Gica\Cqrs;
+namespace tests\unit\Dudulina;
 
 
 use Gica\Lib\ObjectToArrayConverter;

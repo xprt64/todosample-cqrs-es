@@ -9,7 +9,6 @@ namespace Gica\CodeAnalysis;
 use Gica\CodeAnalysis\MethodListenerDiscovery\ListenerClassValidator;
 use Gica\CodeAnalysis\MethodListenerDiscovery\ListenerMethod;
 use Gica\CodeAnalysis\MethodListenerDiscovery\MessageClassDetector;
-use Gica\CodeAnalysis\Shared\ClassSorter;
 use Gica\CodeAnalysis\Traits\FilesInDirectoryExtracter;
 
 class MethodListenerDiscovery
@@ -27,10 +26,6 @@ class MethodListenerDiscovery
     /** @var ListenerMethod[] */
     private $allEventsListeners = [];
     /**
-     * @var ClassSorter
-     */
-    private $classSorter;
-    /**
      * @var PhpClassInFileInspector
      */
     private $phpClassInFileInspector;
@@ -38,21 +33,17 @@ class MethodListenerDiscovery
     public function __construct(
         MessageClassDetector $messageClassDetector,
         ListenerClassValidator $classValidator,
-        ClassSorter $classSorter,
         PhpClassInFileInspector $phpClassInFileInspector = null
     )
     {
         $this->messageClassDetector = $messageClassDetector;
         $this->classValidator = $classValidator;
-        $this->classSorter = $classSorter;
         $this->phpClassInFileInspector = $phpClassInFileInspector ?? new PhpClassInFileInspector();
     }
 
 
-    public function discoverListeners($directory)
+    public function discoverListeners(\Iterator $files)
     {
-        $files = $this->getFilesInDirectory($directory);
-
         $files = $this->filterFiles($files);
 
         foreach ($files as $file) {
@@ -66,8 +57,6 @@ class MethodListenerDiscovery
                 }
             }
         }
-
-        $this->allEventsListeners = $this->sortListeners($this->allEventsListeners);
 
         return $this->allEventsListeners;
     }
@@ -101,22 +90,9 @@ class MethodListenerDiscovery
         $this->allEventsListeners[] = $listener;
     }
 
-    /**
-     * @param ListenerMethod[] $listeners
-     * @return ListenerMethod[]
-     */
-    private function sortListeners($listeners)
+    protected function filterFiles(\Iterator $files)
     {
-        usort($listeners, function (ListenerMethod $a, ListenerMethod $b) {
-            return $this->classSorter->__invoke($a->getClass(), $b->getClass());
-        });
-
-        return $listeners;
-    }
-
-    protected function filterFiles(array $files)
-    {
-        return array_filter($files, function ($file) {
+        return new \CallbackFilterIterator($files, function ($file) {
             return $this->isListenerFileName($file);
         });
     }

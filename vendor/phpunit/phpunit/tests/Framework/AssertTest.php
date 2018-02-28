@@ -20,7 +20,7 @@ class Framework_AssertTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->filesDirectory = dirname(__DIR__) . DIRECTORY_SEPARATOR . DIRECTORY_SEPARATOR;
+        $this->filesDirectory = dirname(__DIR__) . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR;
     }
 
     /**
@@ -670,7 +670,7 @@ class Framework_AssertTest extends PHPUnit_Framework_TestCase
         $object = new SampleClass(4, 8, 15);
         // cannot use $filesDirectory, because neither setUp() nor
         // setUpBeforeClass() are executed before the data providers
-        $file     = dirname(__DIR__) . DIRECTORY_SEPARATOR;
+        $file     = dirname(__DIR__) . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR . 'foo.xml';
         $resource = fopen($file, 'r');
 
         return array(
@@ -721,7 +721,7 @@ class Framework_AssertTest extends PHPUnit_Framework_TestCase
 
         // cannot use $filesDirectory, because neither setUp() nor
         // setUpBeforeClass() are executed before the data providers
-        $file = dirname(__DIR__) . DIRECTORY_SEPARATOR;
+        $file = dirname(__DIR__) . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR . 'foo.xml';
 
         return array(
             // strings

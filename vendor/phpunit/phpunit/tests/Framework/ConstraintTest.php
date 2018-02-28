@@ -206,7 +206,7 @@ EOF
      */
     public function testConstraintFileNotExists()
     {
-        $file = dirname(__DIR__) . DIRECTORY_SEPARATOR;
+        $file = dirname(__DIR__) . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR . 'ClassWithNonPublicAttributes.php';
 
         $constraint = PHPUnit_Framework_Assert::logicalNot(
           PHPUnit_Framework_Assert::fileExists()
@@ -243,7 +243,7 @@ EOF
      */
     public function testConstraintFileNotExists2()
     {
-        $file = dirname(__DIR__) . DIRECTORY_SEPARATOR;
+        $file = dirname(__DIR__) . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR . 'ClassWithNonPublicAttributes.php';
 
         $constraint = PHPUnit_Framework_Assert::logicalNot(
           PHPUnit_Framework_Assert::fileExists()

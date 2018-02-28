@@ -26,6 +26,8 @@ class SubclassComparator
 
     private function getObjectClass($object): string
     {
-        return is_string($object) ? $object : get_class($object);
+        return is_string($object)
+            ? $object
+            : ($object instanceof \ReflectionClass ? $object->getName() : get_class($object));
     }
 }

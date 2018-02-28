@@ -18,7 +18,7 @@ class AggregateEventHandlersValidatorTest extends \PHPUnit_Framework_TestCase
             new OnlyAggregate()
         );
 
-        $sut->validateEventHandlers(__DIR__ . '/AggregateEventHandlersValidator/Valid');
+        $sut->validateEventHandlers(new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator(__DIR__ . '/AggregateEventHandlersValidator/Valid')));
     }
 
     public function testWithOtherNonAcceptedFiles()
@@ -27,7 +27,7 @@ class AggregateEventHandlersValidatorTest extends \PHPUnit_Framework_TestCase
             new AnyPhpClassIsAccepted()
         );
 
-        $sut->validateEventHandlers(__DIR__ . '/AggregateEventHandlersValidator/WithOtherFiles');
+        $sut->validateEventHandlers(new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator(__DIR__ . '/AggregateEventHandlersValidator/WithOtherFiles')));
     }
 
     public function testWithInvalidAggregate()
@@ -39,7 +39,7 @@ class AggregateEventHandlersValidatorTest extends \PHPUnit_Framework_TestCase
         $this->expectException(\Exception::class);
         $this->expectExceptionMessageRegExp('#Method\'s name is invalid#ims');
 
-        $sut->validateEventHandlers(__DIR__ . '/AggregateEventHandlersValidator/Invalid');
+        $sut->validateEventHandlers(new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator(__DIR__ . '/AggregateEventHandlersValidator/Invalid')));
     }
 
     public function testWithInvalidAggregateWithNoTypeHinted()
@@ -51,7 +51,7 @@ class AggregateEventHandlersValidatorTest extends \PHPUnit_Framework_TestCase
         $this->expectException(\Exception::class);
         $this->expectExceptionMessageRegExp('#Method parameter is not type hinted#ims');
 
-        $sut->validateEventHandlers(__DIR__ . '/AggregateEventHandlersValidator/InvalidWithNoTypeHinted');
+        $sut->validateEventHandlers(new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator(__DIR__ . '/AggregateEventHandlersValidator/InvalidWithNoTypeHinted')));
     }
 }
 

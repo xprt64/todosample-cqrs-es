@@ -19,6 +19,8 @@ abstract class Enum
 
     protected function __construct($value = null, $nullable = true)
     {
+        $value = $this->replaceNull($value);
+
         $this->validateValue($value, $nullable);
 
         $this->primitiveValue = $value;
@@ -35,9 +37,9 @@ abstract class Enum
         return $this->convertPrimitiveValue($this->primitiveValue);
     }
 
-    public function equals(self $operand)
+    public function equals(?self $operand)
     {
-        return $this->toPrimitive() === $operand->toPrimitive();
+        return null !== $operand && $this->toPrimitive() === $operand->toPrimitive();
     }
 
     public function equalsPrimitive($operand)
@@ -60,6 +62,11 @@ abstract class Enum
         return $map[$this->primitiveValue];
     }
 
+    private function replaceNull($primitiveValue)
+    {
+        return '__null__' === $primitiveValue ? null : $primitiveValue;
+    }
+
     public function validateValue($primitiveValue, $nullable)
     {
         if (null === $primitiveValue && $nullable) {
@@ -72,6 +79,7 @@ abstract class Enum
             throw new InvalidValue(sprintf("%s (%s) is not a valid value in enum %s (%s)", $this->escapeString($primitiveValue), gettype($primitiveValue), get_class($this), print_r($all, 1)));
         }
     }
+
 
     private function escapeString($s)
     {
@@ -105,6 +113,6 @@ abstract class Enum
 
     protected function hasPrimitiveInteger()
     {
-        return false;
+        return is_integer($this->getAll()[0]);
     }
 }

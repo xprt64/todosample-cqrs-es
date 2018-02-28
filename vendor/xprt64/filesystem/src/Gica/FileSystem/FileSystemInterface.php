@@ -50,4 +50,6 @@ interface FileSystemInterface
     public function fileWriteStream($fullStoragePath, \Psr\Http\Message\StreamInterface $stream);
 
     public function fileCopy($sourcePath, $destinationPath);
+
+    public function fileSetModifiedDate($path, \DateTimeImmutable $modifiedDate);
 }

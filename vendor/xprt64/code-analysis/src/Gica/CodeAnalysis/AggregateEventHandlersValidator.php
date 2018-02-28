@@ -30,10 +30,8 @@ class AggregateEventHandlersValidator
     }
 
 
-    public function validateEventHandlers($directory)
+    public function validateEventHandlers(\Iterator $files)
     {
-        $files = $this->getFilesInDirectory($directory);
-
         $files = $this->filterFiles($files);
 
         foreach ($files as $file) {
@@ -64,9 +62,11 @@ class AggregateEventHandlersValidator
         }
     }
 
-    protected function filterFiles(array $files)
+    protected function filterFiles(\Iterator $files)
     {
-        return array_filter($files, [$this, 'isListenerFileName']);
+        return new \CallbackFilterIterator($files, function ($file) {
+            return $this->isListenerFileName($file);
+        });
     }
 
     /**

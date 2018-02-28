@@ -58,9 +58,9 @@ class Guid
         return self::stringToBinary($this->string);
     }
 
-    public function equals(self $other): bool
+    public function equals(?self $other): bool
     {
-        return $this->string == $other->string;
+        return $other && $this->string == $other->string;
     }
 
     private static function newRandomBinaryGuid()

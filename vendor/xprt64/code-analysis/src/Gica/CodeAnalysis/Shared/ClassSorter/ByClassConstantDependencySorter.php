@@ -23,13 +23,21 @@ class ByClassConstantDependencySorter implements ClassSorter
         $this->constantName = $constantName;
     }
 
-    public function __invoke(\ReflectionClass $a, \ReflectionClass $b)
-    {
-        return $this->getClassConstant($a) <=> $this->getClassConstant($b);
-    }
-
     private function getClassConstant(\ReflectionClass $aClass)
     {
         return $aClass->getConstant($this->constantName);
+    }
+
+    /**
+     * @param \ReflectionClass[] $classes
+     * @return \ReflectionClass[]
+     */
+    public function sortClasses($classes)
+    {
+        usort($classes, function (\ReflectionClass $a, \ReflectionClass $b) {
+            return $this->getClassConstant($a) <=> $this->getClassConstant($b);
+        });
+
+        return $classes;
     }
 }

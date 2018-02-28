@@ -8,8 +8,7 @@ namespace Domain\Read\Todo\TodoList;
 
 class Todo
 {
-
-    private $id;
+    private $_id;
     private $text;
     private $done;
 
@@ -19,14 +18,14 @@ class Todo
         $done
     )
     {
-        $this->id = $id;
+        $this->_id = $id;
         $this->text = $text;
         $this->done = $done;
     }
 
     public function getId()
     {
-        return $this->id;
+        return $this->_id;
     }
 
     public function getText()

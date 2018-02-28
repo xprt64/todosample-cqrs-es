@@ -52,6 +52,7 @@ class ComposerStaticInitb4e7991d6b18b980400d4ce64bbbf5e2
         ),
         'M' => 
         array (
+            'Mongolina\\' => 10,
             'MongoDB\\' => 8,
         ),
         'I' => 
@@ -64,13 +65,14 @@ class ComposerStaticInitb4e7991d6b18b980400d4ce64bbbf5e2
         array (
             'Gica\\Xss\\' => 9,
             'Gica\\Types\\' => 11,
+            'Gica\\Serialize\\' => 15,
+            'Gica\\Selector\\' => 14,
+            'Gica\\MongoDB\\Selector\\' => 22,
             'Gica\\MongoDB\\Lib\\' => 17,
             'Gica\\Lib\\' => 9,
             'Gica\\Iterator\\' => 14,
             'Gica\\FileSystem\\' => 16,
             'Gica\\Dependency\\' => 16,
-            'Gica\\Cqrs\\EventStore\\Mongo\\' => 27,
-            'Gica\\Cqrs\\' => 10,
             'Gica\\CodeAnalysis\\' => 18,
         ),
         'F' => 
@@ -79,6 +81,7 @@ class ComposerStaticInitb4e7991d6b18b980400d4ce64bbbf5e2
         ),
         'D' => 
         array (
+            'Dudulina\\' => 9,
             'Domain\\' => 7,
             'Doctrine\\Instantiator\\' => 22,
         ),
@@ -181,6 +184,10 @@ class ComposerStaticInitb4e7991d6b18b980400d4ce64bbbf5e2
         array (
             0 => __DIR__ . '/..' . '/psr/container/src',
         ),
+        'Mongolina\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/xprt64/mongolina/src/Mongolina',
+        ),
         'MongoDB\\' => 
         array (
             0 => __DIR__ . '/..' . '/mongodb/mongodb/src',
@@ -205,6 +212,18 @@ class ComposerStaticInitb4e7991d6b18b980400d4ce64bbbf5e2
         array (
             0 => __DIR__ . '/..' . '/xprt64/types/src/Gica/Types',
         ),
+        'Gica\\Serialize\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/xprt64/serialize/src/Gica/Serialize',
+        ),
+        'Gica\\Selector\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/xprt64/selector/src/Gica/Selector',
+        ),
+        'Gica\\MongoDB\\Selector\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/xprt64/mongodb-selector/src/Gica/MongoDB/Selector',
+        ),
         'Gica\\MongoDB\\Lib\\' => 
         array (
             0 => __DIR__ . '/..' . '/xprt64/mongodb-lib/src/Gica/MongoDB/Lib',
@@ -225,14 +244,6 @@ class ComposerStaticInitb4e7991d6b18b980400d4ce64bbbf5e2
         array (
             0 => __DIR__ . '/..' . '/xprt64/dependency/src/Gica/Dependency',
         ),
-        'Gica\\Cqrs\\EventStore\\Mongo\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/xprt64/cqrs-eventstore-mongodb/src/Gica/Cqrs/EventStore/Mongo',
-        ),
-        'Gica\\Cqrs\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/xprt64/cqrs-es/src/Gica/Cqrs',
-        ),
         'Gica\\CodeAnalysis\\' => 
         array (
             0 => __DIR__ . '/..' . '/xprt64/code-analysis/src/Gica/CodeAnalysis',
@@ -240,6 +251,10 @@ class ComposerStaticInitb4e7991d6b18b980400d4ce64bbbf5e2
         'Fig\\Http\\Message\\' => 
         array (
             0 => __DIR__ . '/..' . '/fig/http-message-util/src',
+        ),
+        'Dudulina\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/xprt64/dudulina/src/Dudulina',
         ),
         'Domain\\' => 
         array (
@@ -295,6 +310,7 @@ class ComposerStaticInitb4e7991d6b18b980400d4ce64bbbf5e2
         'Generic_Sniffs_ControlStructures_InlineControlStructureSniff' => __DIR__ . '/..' . '/squizlabs/php_codesniffer/CodeSniffer/Standards/Generic/Sniffs/ControlStructures/InlineControlStructureSniff.php',
         'Generic_Sniffs_Debug_CSSLintSniff' => __DIR__ . '/..' . '/squizlabs/php_codesniffer/CodeSniffer/Standards/Generic/Sniffs/Debug/CSSLintSniff.php',
         'Generic_Sniffs_Debug_ClosureLinterSniff' => __DIR__ . '/..' . '/squizlabs/php_codesniffer/CodeSniffer/Standards/Generic/Sniffs/Debug/ClosureLinterSniff.php',
+        'Generic_Sniffs_Debug_ESLintSniff' => __DIR__ . '/..' . '/squizlabs/php_codesniffer/CodeSniffer/Standards/Generic/Sniffs/Debug/ESLintSniff.php',
         'Generic_Sniffs_Debug_JSHintSniff' => __DIR__ . '/..' . '/squizlabs/php_codesniffer/CodeSniffer/Standards/Generic/Sniffs/Debug/JSHintSniff.php',
         'Generic_Sniffs_Files_ByteOrderMarkSniff' => __DIR__ . '/..' . '/squizlabs/php_codesniffer/CodeSniffer/Standards/Generic/Sniffs/Files/ByteOrderMarkSniff.php',
         'Generic_Sniffs_Files_EndFileNewlineSniff' => __DIR__ . '/..' . '/squizlabs/php_codesniffer/CodeSniffer/Standards/Generic/Sniffs/Files/EndFileNewlineSniff.php',
@@ -373,9 +389,12 @@ class ComposerStaticInitb4e7991d6b18b980400d4ce64bbbf5e2
         'PEAR_Sniffs_WhiteSpace_ScopeClosingBraceSniff' => __DIR__ . '/..' . '/squizlabs/php_codesniffer/CodeSniffer/Standards/PEAR/Sniffs/WhiteSpace/ScopeClosingBraceSniff.php',
         'PEAR_Sniffs_WhiteSpace_ScopeIndentSniff' => __DIR__ . '/..' . '/squizlabs/php_codesniffer/CodeSniffer/Standards/PEAR/Sniffs/WhiteSpace/ScopeIndentSniff.php',
         'PHPUnit\\Framework\\Assert' => __DIR__ . '/..' . '/phpunit/phpunit/src/ForwardCompatibility/Assert.php',
+        'PHPUnit\\Framework\\AssertionFailedError' => __DIR__ . '/..' . '/phpunit/phpunit/src/ForwardCompatibility/AssertionFailedError.php',
         'PHPUnit\\Framework\\BaseTestListener' => __DIR__ . '/..' . '/phpunit/phpunit/src/ForwardCompatibility/BaseTestListener.php',
+        'PHPUnit\\Framework\\Test' => __DIR__ . '/..' . '/phpunit/phpunit/src/ForwardCompatibility/Test.php',
         'PHPUnit\\Framework\\TestCase' => __DIR__ . '/..' . '/phpunit/phpunit/src/ForwardCompatibility/TestCase.php',
         'PHPUnit\\Framework\\TestListener' => __DIR__ . '/..' . '/phpunit/phpunit/src/ForwardCompatibility/TestListener.php',
+        'PHPUnit\\Framework\\TestSuite' => __DIR__ . '/..' . '/phpunit/phpunit/src/ForwardCompatibility/TestSuite.php',
         'PHPUnit_Exception' => __DIR__ . '/..' . '/phpunit/phpunit/src/Exception.php',
         'PHPUnit_Extensions_GroupTestSuite' => __DIR__ . '/..' . '/phpunit/phpunit/src/Extensions/GroupTestSuite.php',
         'PHPUnit_Extensions_PhptTestCase' => __DIR__ . '/..' . '/phpunit/phpunit/src/Extensions/PhptTestCase.php',

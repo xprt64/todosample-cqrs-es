@@ -2,6 +2,37 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
+## 1.4.1 - 2017-12-12
+
+### Added
+
+- [#39](https://github.com/zendframework/zend-expressive-zendviewrenderer/pull/39)
+  adds the ability for the `ZendViewRendererFactory` to use the
+  `Zend\View\Renderer\PhpRenderer` service when present, defaulting to creating
+  an unconfigured instance if none is available (previous behavior).
+
+### Changed
+
+- [#41](https://github.com/zendframework/zend-expressive-zendviewrenderer/pull/41)
+  updates the renderer to also inject the layout with any default parameters (vs
+  only the template requested).
+
+### Deprecated
+
+- Nothing.
+
+### Removed
+
+- Nothing.
+
+### Fixed
+
+- [#43](https://github.com/zendframework/zend-expressive-zendviewrenderer/pull/43)
+  ensures that if a view model provided to the renderer contains child view
+  models, then it will properly merge variables pulled from the child model.
+  Previously, an error would occur due to an attempt to merge either a null or
+  an object where it expected an array.
+
 ## 1.4.0 - 2017-03-14
 
 ### Added

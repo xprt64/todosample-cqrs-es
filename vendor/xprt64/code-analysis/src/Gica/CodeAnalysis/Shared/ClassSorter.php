@@ -8,5 +8,9 @@ namespace Gica\CodeAnalysis\Shared;
 
 interface ClassSorter
 {
-    public function __invoke(\ReflectionClass $a, \ReflectionClass $b);
+    /**
+     * @param \ReflectionClass[] $classes
+     * @return \ReflectionClass[]
+     */
+    public function sortClasses($classes);
 }

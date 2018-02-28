@@ -19,11 +19,11 @@ class AddNewTodo implements Command
 
     public function __construct(
         string $id,
-        $text
+        string $text
     )
     {
         if (empty($id)) {
-            throw new \Exception("$id ID must not be empty");
+            throw new \InvalidArgumentException("$id ID must not be empty");
         }
 
         $this->id = $id;

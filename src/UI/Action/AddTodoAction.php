@@ -3,6 +3,7 @@
 
 namespace UI\Action;
 
+use Domain\Read\Todo\TodoList;
 use Domain\Write\Todo\TodoAggregate\Command\AddNewTodo;
 use Dudulina\Command\CommandDispatcher;
 use Psr\Http\Message\ResponseInterface;
@@ -16,12 +17,18 @@ class AddTodoAction
      * @var CommandDispatcher
      */
     private $commandDispatcher;
+    /**
+     * @var TodoList
+     */
+    private $todoList;
 
     public function __construct(
-        CommandDispatcher $commandDispatcher
+        CommandDispatcher $commandDispatcher,
+        TodoList $todoList
     )
     {
         $this->commandDispatcher = $commandDispatcher;
+        $this->todoList = $todoList;
     }
 
 
@@ -38,7 +45,7 @@ class AddTodoAction
             return new JsonResponse([
                 'success' => true,
                 'id'      => $post['id'],
-                'text'    => $post['text'],
+                'text'    => $this->todoList->getTodoText($post['id']),
             ]);
         } catch (\Throwable $exception) {
 
