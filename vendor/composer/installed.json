@@ -3136,54 +3136,6 @@
         "description": "Prevents installation of composer packages with known security vulnerabilities: no API, simply require it"
     },
     {
-        "name": "xprt64/dudulina",
-        "version": "4.0.4",
-        "version_normalized": "4.0.4.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/xprt64/dudulina.git",
-            "reference": "ecf3892f1620989686195a8d1955b1b372b4fcbb"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/xprt64/dudulina/zipball/ecf3892f1620989686195a8d1955b1b372b4fcbb",
-            "reference": "ecf3892f1620989686195a8d1955b1b372b4fcbb",
-            "shasum": ""
-        },
-        "require": {
-            "php": "^7.0",
-            "psr/log": "^1.0",
-            "xprt64/code-analysis": "^1.1.11",
-            "xprt64/dependency": "^1.0",
-            "xprt64/filesystem": "^1.0.1",
-            "xprt64/iterator": "^1.0",
-            "xprt64/selector": "^0.0.3",
-            "xprt64/types": "^1.0"
-        },
-        "require-dev": {
-            "phpunit/phpunit": "^5.4"
-        },
-        "time": "2018-02-27T09:54:57+00:00",
-        "type": "library",
-        "installation-source": "source",
-        "autoload": {
-            "psr-4": {
-                "Dudulina\\": "src/Dudulina/"
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "proprietary"
-        ],
-        "authors": [
-            {
-                "name": "Constantin GALBENU",
-                "email": "gica.galbenu@gmail.com"
-            }
-        ],
-        "description": "CQRS with Event Sourcing mini framework for PHP"
-    },
-    {
         "name": "xprt64/mongolina",
         "version": "3.0.4",
         "version_normalized": "3.0.4.0",
@@ -3231,5 +3183,53 @@
             }
         ],
         "description": "MongoDB implementation for Dudulina (CQRS Event Store for PHP)"
+    },
+    {
+        "name": "xprt64/dudulina",
+        "version": "4.0.5",
+        "version_normalized": "4.0.5.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/xprt64/dudulina.git",
+            "reference": "3e029fd2e2996ac8e1ea035dca309029d0047948"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/xprt64/dudulina/zipball/3e029fd2e2996ac8e1ea035dca309029d0047948",
+            "reference": "3e029fd2e2996ac8e1ea035dca309029d0047948",
+            "shasum": ""
+        },
+        "require": {
+            "php": "^7.0",
+            "psr/log": "^1.0",
+            "xprt64/code-analysis": "^1.1.11",
+            "xprt64/dependency": "^1.0",
+            "xprt64/filesystem": "^1.0.1",
+            "xprt64/iterator": "^1.0",
+            "xprt64/selector": "^0.0.3",
+            "xprt64/types": "^1.0"
+        },
+        "require-dev": {
+            "phpunit/phpunit": "^5.4"
+        },
+        "time": "2018-02-28T15:12:07+00:00",
+        "type": "library",
+        "installation-source": "source",
+        "autoload": {
+            "psr-4": {
+                "Dudulina\\": "src/Dudulina/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "proprietary"
+        ],
+        "authors": [
+            {
+                "name": "Constantin GALBENU",
+                "email": "gica.galbenu@gmail.com"
+            }
+        ],
+        "description": "CQRS with Event Sourcing mini framework for PHP"
     }
 ]

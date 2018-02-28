@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "ab022591b9629a779ae71748183465df",
+    "content-hash": "2889d9bab9dddd424169f92e18bcc82a",
     "packages": [
         {
             "name": "aura/router",
@@ -634,16 +634,16 @@
         },
         {
             "name": "xprt64/dudulina",
-            "version": "4.0.4",
+            "version": "4.0.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/xprt64/dudulina.git",
-                "reference": "ecf3892f1620989686195a8d1955b1b372b4fcbb"
+                "reference": "3e029fd2e2996ac8e1ea035dca309029d0047948"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/xprt64/dudulina/zipball/ecf3892f1620989686195a8d1955b1b372b4fcbb",
-                "reference": "ecf3892f1620989686195a8d1955b1b372b4fcbb",
+                "url": "https://api.github.com/repos/xprt64/dudulina/zipball/3e029fd2e2996ac8e1ea035dca309029d0047948",
+                "reference": "3e029fd2e2996ac8e1ea035dca309029d0047948",
                 "shasum": ""
             },
             "require": {
@@ -676,7 +676,7 @@
                 }
             ],
             "description": "CQRS with Event Sourcing mini framework for PHP",
-            "time": "2018-02-27T09:54:57+00:00"
+            "time": "2018-02-28T15:12:07+00:00"
         },
         {
             "name": "xprt64/filesystem",

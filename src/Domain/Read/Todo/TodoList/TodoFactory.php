@@ -11,7 +11,7 @@ class TodoFactory
     public function __invoke($document): Todo
     {
         return new Todo(
-            $document['id'],
+            $document['_id'],
             $document['text'],
             $document['done']
         );
