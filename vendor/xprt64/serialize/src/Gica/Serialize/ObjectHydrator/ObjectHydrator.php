@@ -31,7 +31,6 @@ class ObjectHydrator
      */
     public function hydrateObject(string $objectClass, $serializedValue)
     {
-        // echo "hydrateObject($objectClass)\n";
         try {
             return $this->castValueToBuiltinType($objectClass, $serializedValue);
         } catch (ValueNotScalar $exception) {
@@ -47,15 +46,7 @@ class ObjectHydrator
     {
         $reflectionClass = new \ReflectionClass($objectClass);
 
-        //       try {
         $object = unserialize($this->getEmptyObject($objectClass));
-        ///       } catch (\Throwable $exception) {
-//            echo "EXCEPTION: hydrateObjectByReflection($objectClass): \n";
-//            var_dump($exception);
-//            var_dump($document);
-//            echo "\n";
-        //           throw $exception;
-        //      }
 
         $this->matchAndSetNonConstructorProperties($reflectionClass, $object, $document);
 
@@ -85,49 +76,69 @@ class ObjectHydrator
     private function castValueToBuiltinType($type, $value)
     {
         switch ((string)$type) {
-            case 'string' :
+            case 'string':
                 return strval($value);
-            case 'int' :
+
+            case 'mixed':
+                return $value;
+
+            case 'int':
                 return intval($value);
-            case 'float' :
+
+            case 'float':
                 return floatval($value);
-            case 'bool' :
-            case 'boolean' :
+
+            case 'bool':
+            case 'boolean':
                 return boolval($value);
-            case 'null' :
+
+            case 'null':
                 return null;
-            default:
-                throw new ValueNotScalar("Unknown builtin type: $type");
         }
+
+        throw new ValueNotScalar("Unknown builtin type: $type");
     }
 
     private function detectIfPropertyIsArrayFromComment(\ReflectionClass $reflectionClass, string $propertyName)
     {
+        static $cache = [];
+        $cacheId = $reflectionClass->getName() . '-' . $propertyName;
+        if (!isset($cache[$cacheId])) {
+            $cache[$cacheId] = $this->_detectIfPropertyIsArrayFromComment($reflectionClass, $propertyName);
+        }
+        return $cache[$cacheId];
+    }
+
+    private function _detectIfPropertyIsArrayFromComment(\ReflectionClass $reflectionClass, string $propertyName)
+    {
         $shortType = $this->parseTypeFromPropertyVarDoc($reflectionClass, $propertyName);
-
         $len = strlen($shortType);
-
         if ($len < 3) {
             return false;
         }
-
         return $shortType[$len - 2] === '[' && $shortType[$len - 1] === ']';
     }
 
     private function detectClassNameFromPropertyComment(\ReflectionClass $reflectionClass, string $propertyName)
     {
+        static $cache = [];
+        $cacheId = $reflectionClass->getName() . '-' . $propertyName;
+        if (!isset($cache[$cacheId])) {
+            $cache[$cacheId] = $this->_detectClassNameFromPropertyComment($reflectionClass, $propertyName);
+        }
+        return $cache[$cacheId];
+    }
+
+    private function _detectClassNameFromPropertyComment(\ReflectionClass $reflectionClass, string $propertyName)
+    {
         $shortType = $this->parseTypeFromPropertyVarDoc($reflectionClass, $propertyName);
-
         $shortType = rtrim($shortType, '[]');
-
         if ('array' === $shortType) {
             return null;
         }
-
         if ('\\' == $shortType[0]) {
             return ltrim($shortType, '\\');
         }
-
         if ($this->isScalar($shortType)) {
             return $shortType;
         }
@@ -137,8 +148,16 @@ class ObjectHydrator
 
     private function resolveShortClassName($shortName, \ReflectionClass $contextClass)
     {
-        return (new FqnResolver())->resolveShortClassName($shortName, $contextClass);
-
+        $className = (new FqnResolver())->resolveShortClassName($shortName, $contextClass);
+        if (!class_exists($className)) {
+            foreach ($contextClass->getTraits() as $trait) {
+                $className = (new FqnResolver())->resolveShortClassName($shortName, $trait);
+                if (class_exists($className)) {
+                    return $className;
+                }
+            }
+        }
+        return $className;
     }
 
     private function matchAndSetNonConstructorProperties(\ReflectionClass $reflectionClass, $object, $document): void
@@ -166,7 +185,6 @@ class ObjectHydrator
     public function hydrateObjectProperty($objectClass, string $propertyName, $document)
     {
         $reflectionClass = new \ReflectionClass($objectClass);
-
         return $this->hydrateProperty($reflectionClass, $propertyName, $document);
     }
 
@@ -211,6 +229,20 @@ class ObjectHydrator
      */
     private function isScalar($shortType): bool
     {
+        static $cache = [];
+        $cacheId = $shortType;
+        if (!isset($cache[$cacheId])) {
+            $cache[$cacheId] = $this->_isScalar($shortType);
+        }
+        return $cache[$cacheId];
+    }
+
+    /**
+     * @param $shortType
+     * @return bool
+     */
+    private function _isScalar($shortType): bool
+    {
         try {
             $this->castValueToBuiltinType($shortType, '1');
             return true;
@@ -221,7 +253,7 @@ class ObjectHydrator
 
     private function parseTypeFromPropertyVarDoc(\ReflectionClass $reflectionClass, string $propertyName)
     {
-        $property = $reflectionClass->getProperty($propertyName);
+        $property = $this->getClassProperty($reflectionClass, $propertyName);
 
         if (!preg_match('#\@var\s+(?P<shortType>[\\\\a-z0-9_\]\[]+)#ims', $property->getDocComment(), $m)) {
             throw new \Exception("Could not detect type from vardoc for property {$propertyName}");

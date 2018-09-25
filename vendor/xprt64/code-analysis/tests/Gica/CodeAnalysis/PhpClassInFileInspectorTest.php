@@ -39,4 +39,11 @@ class PhpClassInFileInspectorTest extends \PHPUnit_Framework_TestCase
 
         $this->assertSame(null, $sut->getFullyQualifiedClassName(__DIR__ . '/PhpClassInFileInspectorData/NoClass.php'));
     }
+
+    public function testClassInCode()
+    {
+        $sut = new PhpClassInFileInspector();
+
+        $this->assertSame(null, $sut->getFullyQualifiedClassName(__DIR__ . '/PhpClassInFileInspectorData/ClassInCode.php'));
+    }
 }

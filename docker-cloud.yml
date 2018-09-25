@@ -6,10 +6,10 @@ app:
   ports:
     - '80:80'
 eventstore:
-  image: 'mongo:3.4'
+  image: 'mongo:4.0'
   ports:
     - '27018:27017'
 readmodelsdb:
-  image: 'mongo:3.4'
+  image: 'mongo:4.0'
   ports:
     - '27019:27017'

@@ -1,0 +1,2 @@
+[![Code Coverage](https://scrutinizer-ci.com/g/xprt64/serialize/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/xprt64/serialize/?branch=master)
+[![Build Status](https://scrutinizer-ci.com/g/xprt64/serialize/badges/build.png?b=master)](https://scrutinizer-ci.com/g/xprt64/serialize/build-status/master)

@@ -10,7 +10,7 @@ use Gica\Types\Exception\InvalidValue;
 
 abstract class Set
 {
-    /** @var integer */
+    /** @var int[]|string[] */
     private $primitiveValues;
     /**
      * @var bool
@@ -87,9 +87,9 @@ abstract class Set
 
     public static function fromPrimitive($values)
     {
-        if (null !== $values) {
+        if (null !== $values && '' !== $values) {
             if (!is_array($values)) {
-                $values = [$values];
+                $values = explode(',', $values);
             }
         }
 

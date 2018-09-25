@@ -12,8 +12,8 @@
 namespace Symfony\Component\Yaml\Tests;
 
 use PHPUnit\Framework\TestCase;
-use Symfony\Component\Yaml\Parser;
 use Symfony\Component\Yaml\Dumper;
+use Symfony\Component\Yaml\Parser;
 use Symfony\Component\Yaml\Yaml;
 
 class DumperTest extends TestCase
@@ -452,6 +452,17 @@ YAML;
         );
 
         $this->assertSame(file_get_contents(__DIR__.'/Fixtures/multiple_lines_as_literal_block.yml'), $this->dumper->dump($data, 2, 0, Yaml::DUMP_MULTI_LINE_LITERAL_BLOCK));
+    }
+
+    public function testDumpMultiLineStringAsScalarBlockWhenFirstLineHasLeadingSpace()
+    {
+        $data = array(
+            'data' => array(
+                'multi_line' => "    the first line has leading spaces\nThe second line does not.",
+            ),
+        );
+
+        $this->assertSame(file_get_contents(__DIR__.'/Fixtures/multiple_lines_as_literal_block_leading_space_in_first_line.yml'), $this->dumper->dump($data, 2, 0, Yaml::DUMP_MULTI_LINE_LITERAL_BLOCK));
     }
 
     public function testCarriageReturnIsMaintainedWhenDumpingAsMultiLineLiteralBlock()

@@ -42,23 +42,19 @@ class ObjectSerializer
 
         $class = new \ReflectionClass($anything);
 
-        $properties = $class->getProperties();
+        $properties = $this->getClassProperties($class);
 
         $result = [
             '@classes' => [],
         ];
 
         foreach ($properties as $property) {
-            /** @var \ReflectionProperty $property */
             $property->setAccessible(true);
             $unserializedValue = $property->getValue($anything);
-
             $value = $unserializedValue;
-
             if (is_object($unserializedValue) || is_array($unserializedValue)) {
                 $value = $this->convert($unserializedValue);
             }
-
             $result[$property->getName()] = $value;
             if (is_object($unserializedValue)) {
                 $result['@classes'][$property->getName()] = get_class($unserializedValue);
@@ -72,4 +68,17 @@ class ObjectSerializer
         return $result;
     }
 
+    /**
+     * @param \ReflectionClass $class
+     * @return \ReflectionProperty[]
+     */
+    private function getClassProperties(\ReflectionClass $class)
+    {
+        $properties = $class->getProperties();
+        if (!$class->getParentClass()) {
+            return $properties;
+        }
+        $parentProperties = $this->getClassProperties($class->getParentClass());
+        return array_merge($properties, $parentProperties);
+    }
 }

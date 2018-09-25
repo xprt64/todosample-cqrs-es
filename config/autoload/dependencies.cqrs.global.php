@@ -3,39 +3,35 @@
  * Copyright (c) 2018 Constantin Galbenu <xprt64@gmail.com>
  */
 
-use Dudulina\Command\CommandApplier;
+use Dudulina\Aggregate\AggregateRepository;
+use Dudulina\Aggregate\EventSourcedAggregateRepository;
 use Dudulina\Command\CommandDispatcher\CommandDispatcherWithValidator;
-use Dudulina\Command\CommandDispatcher\ConcurrentProofFunctionCaller;
 use Dudulina\Command\CommandDispatcher\DefaultCommandDispatcher;
 use Dudulina\Command\CommandDispatcher\SideEffectsDispatcher;
-use Dudulina\Command\CommandValidation\CommandValidatorSubscriber;
+use Dudulina\Command\CommandDispatcher\SideEffectsDispatcher\DefaultSideEffectsDispatcher;
+use Dudulina\Command\CommandValidation\CommandValidatorSubscriberByMap;
 use Dudulina\Command\MetadataFactory\DefaultMetadataWrapper;
 use Dudulina\Event\EventDispatcher\CompositeEventDispatcher;
 use Dudulina\Event\EventDispatcher\EventDispatcherBySubscriber;
-use Dudulina\Event\EventsApplier\EventsApplierOnAggregate;
+use Dudulina\Event\EventSubscriber\EventSubscriberByMap;
 use Dudulina\Event\MetadataFactory\DefaultMetadataFactory;
+use Dudulina\Query\Answerer;
+use Dudulina\Query\Answerer\DefaultAnswerer;
+use Dudulina\Query\Asker;
+use Dudulina\Query\Asker\DefaultAsker;
 use Dudulina\Saga\SagaEventTrackerRepository;
 use Dudulina\Saga\SagasOnlyOnceEventDispatcher;
+use Dudulina\Scheduling\CommandScheduler;
+use Dudulina\Scheduling\ScheduledCommandStore;
 use Gica\Serialize\ObjectSerializer\ObjectSerializer;
 use Infrastructure\Cqrs\EventDispatcher\MutedErrorsDecorator;
+use Infrastructure\Implementations\ReadModelsDatabase;
 use Infrastructure\Orm\GicaToMongoTypeSerializers\MongoSerializer;
 use Mongolina\EventsCommit\CommitSerializer;
-use Mongolina\EventSerializer;
-use Mongolina\FutureEventsStore;
 use Mongolina\MongoAggregateAllEventStreamFactory;
 use Mongolina\MongoAllEventByClassesStreamFactory;
 use Mongolina\MongoEventStore;
-use Dudulina\Scheduling\CommandScheduler;
-use Dudulina\Scheduling\ScheduledCommandStore;
-use Gica\Lib\ObjectToArrayConverter;
-use Infrastructure\Cqrs\CommandHandlerSubscriber;
-use Infrastructure\Implementations\AuthenticatedIdentityService;
-use Infrastructure\Implementations\ReadModelsDatabase;
-use Interop\Container\ContainerInterface;
-use Psr\Log\LoggerInterface;
-use Zend\Expressive\Application;
-use Zend\Expressive\Container\ApplicationFactory;
-use Zend\Expressive\Helper;
+use Psr\Container\ContainerInterface;
 
 return [
     // Provides application-wide services.
@@ -60,33 +56,40 @@ return [
 
             \Dudulina\EventStore::class => function (ContainerInterface $container) {
                 return new MongoEventStore(
-                    $container->get(\Infrastructure\Implementations\EventStoreDatabase::class)->selectCollection('eventStore'),
+                    $container->get(\Infrastructure\Implementations\EventStoreDatabase::class)
+                        ->selectCollection('eventStore'),
                     $container->get(MongoAggregateAllEventStreamFactory::class),
                     $container->get(MongoAllEventByClassesStreamFactory::class),
                     $container->get(CommitSerializer::class)
                 );
+            },
+            AggregateRepository::class  => function (ContainerInterface $container) {
+                return $container->get(EventSourcedAggregateRepository::class);
             },
 
             ObjectSerializer::class => function (ContainerInterface $container) {
                 return new MongoSerializer();
             },
 
-            \Dudulina\Event\EventSubscriber::class => function (ContainerInterface $container) {
-                return $container->get(\Infrastructure\Cqrs\EventSubscriber::class);
-            },
-
-            CommandValidatorSubscriber::class => function (ContainerInterface $container) {
-                return $container->get(\Infrastructure\Cqrs\CommandValidatorSubscriber::class);
-            },
-
             \Dudulina\Event\EventDispatcher::class => function (ContainerInterface $container) {
                 return new CompositeEventDispatcher(
                     new EventDispatcherBySubscriber(
-                        $container->get(\Infrastructure\Cqrs\EventSubscriber::class)
+                        new EventSubscriberByMap($container, \EventListenersMap::getMap())
                     ),
                     new EventDispatcherBySubscriber(
-                        $container->get(\Infrastructure\Cqrs\WriteSideEventSubscriber::class)
+                        new EventSubscriberByMap($container, \SagaEventProcessorsMap::getMap())
                     )
+                );
+            },
+
+            \Dudulina\Command\CommandSubscriber::class => function () {
+                return new \Dudulina\Command\CommandSubscriber\CommandSubscriberByMap(\CommandHandlersMap::getMap());
+            },
+
+            \Dudulina\Command\CommandValidator::class => function (ContainerInterface $container) {
+                return new \Dudulina\Command\CommandValidation\CommandValidatorBySubscriber(
+                    new CommandValidatorSubscriberByMap(\CommandValidatorSubscriber::getMap()),
+                    $container
                 );
             },
 
@@ -99,21 +102,37 @@ return [
                 //);
             },
 
-            SideEffectsDispatcher::class => function (ContainerInterface $container) {
-                return new SideEffectsDispatcher(
+            SideEffectsDispatcher::class             => function (ContainerInterface $container) {
+                return new DefaultSideEffectsDispatcher(
                     new CompositeEventDispatcher(
                         new EventDispatcherBySubscriber(
-                            $container->get(\Infrastructure\Cqrs\EventSubscriber::class),
+                            new EventSubscriberByMap($container, \EventListenersMap::getMap()),
                             $container->get(\Psr\Log\LoggerInterface::class)
                         ),
                         new MutedErrorsDecorator(new SagasOnlyOnceEventDispatcher(
                             $container->get(SagaEventTrackerRepository::class),
-                            $container->get(\Infrastructure\Cqrs\SagaEventSubscriber::class),
+                            new EventSubscriberByMap($container, \SagaEventProcessorsMap::getMap()),
                             $container->get(\Psr\Log\LoggerInterface::class)
                         ))
                     ),
                     $container->get(CommandScheduler::class)
                 );
+            },
+            Asker::class                             => function (ContainerInterface $container) {
+                return new DefaultAsker(
+                    $container,
+                    new \Dudulina\Query\AnswererResolver\ByMap(\QueryHandlersMap::getMap()),
+                    new \Dudulina\Query\AskerResolver\ByMap(\QueryAskersMap::getMap())
+                );
+            },
+            Answerer::class                          => function (ContainerInterface $container) {
+                return new DefaultAnswerer(
+                    $container,
+                    new \Dudulina\Query\AskerResolver\ByMap(\QueryAskersMap::getMap())
+                );
+            },
+            \Psr\Container\ContainerInterface::class => function (ContainerInterface $container) {
+                return $container;
             },
 
             SagaEventTrackerRepository::class => function (ContainerInterface $container) {
@@ -129,10 +148,6 @@ return [
 
             \Dudulina\Command\MetadataWrapper::class => function (ContainerInterface $container) {
                 return new DefaultMetadataWrapper();
-            },
-
-            \Dudulina\Command\CommandSubscriber::class => function (ContainerInterface $container) {
-                return $container->get(\Infrastructure\Cqrs\CommandHandlerSubscriber::class);
             },
 
             CommandScheduler::class => function (ContainerInterface $container) {

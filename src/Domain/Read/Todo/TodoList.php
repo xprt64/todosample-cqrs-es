@@ -6,6 +6,8 @@
 namespace Domain\Read\Todo;
 
 
+use Domain\Query\Todo\WhatIsTheStatusOfTheTodo;
+use Domain\Query\Todo\WhatIsTheTitleOfTheTodo;
 use Domain\Read\Dependency\Database\ReadModelsDatabase;
 use Domain\Read\Todo\TodoList\Todo;
 use Domain\Read\Todo\TodoList\TodoFactory;
@@ -15,6 +17,7 @@ use Domain\Write\Todo\TodoAggregate\Event\ATodoWasDeleted;
 use Domain\Write\Todo\TodoAggregate\Event\ATodoWasMarkedAsDone;
 use Domain\Write\Todo\TodoAggregate\Event\ATodoWasUnmarkedAsDone;
 use Dudulina\Event\MetaData;
+use Dudulina\Query\Asker;
 use Dudulina\ReadModel\ReadModelInterface;
 use Gica\Iterator\IteratorTransformer\IteratorMapper;
 use MongoDB\BSON\UTCDateTime;
@@ -26,12 +29,18 @@ class TodoList implements ReadModelInterface
      * @var ReadModelsDatabase
      */
     private $database;
+    /**
+     * @var Asker
+     */
+    private $asker;
 
     public function __construct(
-        ReadModelsDatabase $database
+        ReadModelsDatabase $database,
+    Asker $asker
     )
     {
         $this->database = $database;
+        $this->asker = $asker;
     }
 
     private function getCollection()
@@ -56,15 +65,24 @@ class TodoList implements ReadModelInterface
             'done'      => false,
             'dateAdded' => new UTCDateTime($metaData->getDateCreated()->getTimestamp() * 1000),
         ]);
+        // we ask a question and the answer will come to the self::whenAnsweredWhatIsTheStatusOfTheTodo
+        $this->asker->askAndNotifyAsker(new WhatIsTheStatusOfTheTodo($event->getId()), $this);
     }
 
-    public function onATodoWasMarkedAsDone(ATodoWasMarkedAsDone $event, MetaData $metaData)
+    /**
+     * We don't listen to ANewTodoWasRenamed events, we are not interested in the history of renamings.
+     * Instead, we listen to a query, and get only the latest modification when rebuilding.
+     * This method is called every time the Answerer decides that the answer changes
+     * @see \Domain\Read\Todo\TodoDetails::whatIsTheStatusOfTheTodo()
+     * @QueryAsker
+     */
+    public function whenAnsweredWhatIsTheTitleOfTheTodo(WhatIsTheTitleOfTheTodo $question): void
     {
         $this->getCollection()->updateOne([
-            '_id' => (string)$metaData->getAggregateId(),
+            '_id' => $question->getId(),
         ], [
             '$set' => [
-                'done' => true,
+                'text' => $question->getAnswer(),
             ],
         ]);
     }
@@ -80,13 +98,19 @@ class TodoList implements ReadModelInterface
         ]);
     }
 
-    public function onATodoWasUnmarkedAsDone(ATodoWasUnmarkedAsDone $event, MetaData $metaData)
+    /**
+     * We don't listen to ATodoWasMarkedAsDone or ATodoWasUnmarkedAsDone. Instead, we listen to a query, just
+     * to demonstrate how to use queries
+     * @see \Domain\Read\Todo\TodoDetails::whatIsTheStatusOfTheTodo()
+     * @QueryAsker
+     */
+    public function whenAnsweredWhatIsTheStatusOfTheTodo(WhatIsTheStatusOfTheTodo $question): void
     {
         $this->getCollection()->updateOne([
-            '_id' => (string)$metaData->getAggregateId(),
+            '_id' => $question->getId(),
         ], [
             '$set' => [
-                'done' => false,
+                'done' => $question->isDone(),
             ],
         ]);
     }

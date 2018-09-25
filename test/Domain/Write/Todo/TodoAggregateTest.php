@@ -3,7 +3,6 @@
  * Copyright (c) 2017 Constantin Galbenu <xprt64@gmail.com>
  */
 
-use Infrastructure\Cqrs\CommandHandlerSubscriber;
 use Domain\Write\Todo\TodoAggregate;
 use Domain\Write\Todo\TodoAggregate\Command\AddNewTodo;
 use Domain\Write\Todo\TodoAggregate\Event\ANewTodoWasAdded;
@@ -15,16 +14,14 @@ class TodoAggregateTest extends PHPUnit_Framework_TestCase
 
     public function test_handleAddNewTodo()
     {
-        $command  = new AddNewTodo(
-            123, 'test'
-        );
+        $command = new AddNewTodo(123, 'test');
 
-        $expectedEvent = new ANewTodoWasAdded('test');
+        $expectedEvent = new ANewTodoWasAdded(123, 'test');
 
         $sut = new TodoAggregate();
 
         $helper = new BddAggregateTestHelper(
-            new CommandHandlerSubscriber()
+            new \CommandHandlersMap()
         );
 
         $helper->onAggregate($sut);
@@ -37,7 +34,7 @@ class TodoAggregateTest extends PHPUnit_Framework_TestCase
 
     public function test_handleAddNewTodo_idempotent()
     {
-        $command  = new AddNewTodo(
+        $command = new AddNewTodo(
             123, 'test'
         );
 
@@ -46,7 +43,7 @@ class TodoAggregateTest extends PHPUnit_Framework_TestCase
         $sut = new TodoAggregate();
 
         $helper = new BddAggregateTestHelper(
-            new CommandHandlerSubscriber()
+            new \CommandHandlersMap()
         );
 
         $helper->onAggregate($sut);

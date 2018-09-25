@@ -23,15 +23,17 @@ return [
         ],
         // Use 'factories' for services provided by callbacks/factory classes.
         'factories'          => [
-            Application::class                                                  => ApplicationFactory::class,
-            Helper\UrlHelper::class                                             => Helper\UrlHelperFactory::class,
-            LoggerInterface::class                                              => function () {
+            Application::class      => ApplicationFactory::class,
+            Helper\UrlHelper::class => Helper\UrlHelperFactory::class,
+            LoggerInterface::class  => function () {
                 return null;
             },
-            \Gica\Dependency\AbstractFactory::class                             => function (\Interop\Container\ContainerInterface $container) {
+
+            \Gica\Dependency\AbstractFactory::class => function (\Psr\Container\ContainerInterface $container) {
                 return new \Gica\Dependency\ConstructorAbstractFactory($container);
             },
-            \Domain\Write\Todo\DuplicateTodoDetection\ListOfAllTodoNames::class => function (\Interop\Container\ContainerInterface $container) {
+
+            \Domain\Write\Todo\DuplicateTodoDetection\ListOfAllTodoNames::class => function (\Psr\Container\ContainerInterface $container) {
                 return $container->get(\Infrastructure\Orm\ListOfAllTodoNamesMongo::class);
             },
 

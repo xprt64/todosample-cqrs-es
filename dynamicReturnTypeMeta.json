@@ -6,6 +6,11 @@
       "position": 0
     },
      {
+      "class": "\\Psr\\Container\\ContainerInterface",
+      "method": "get",
+      "position": 0
+    },
+     {
       "class": "\\PHPUnit_Framework_TestCase",
       "method": "getMock",
       "position": 0

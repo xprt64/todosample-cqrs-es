@@ -104,7 +104,7 @@ abstract class Enum
 
     private function convertPrimitiveValue($value)
     {
-        if ($this->hasPrimitiveInteger() && null !== $value) {
+        if ($this->hasPrimitiveInteger() && null !== $value && '' !== $value) {
             $value = (int)$value;
         }
 
@@ -114,5 +114,10 @@ abstract class Enum
     protected function hasPrimitiveInteger()
     {
         return is_integer($this->getAll()[0]);
+    }
+
+    public static function null()
+    {
+        return new static(null);
     }
 }

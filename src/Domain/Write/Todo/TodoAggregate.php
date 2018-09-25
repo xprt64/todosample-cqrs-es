@@ -65,7 +65,7 @@ class TodoAggregate
 
         //idempotent
         if (!$this->done) {
-            yield new ATodoWasMarkedAsDone();
+            yield new ATodoWasMarkedAsDone($command->getId());
         }
     }
 
@@ -82,7 +82,7 @@ class TodoAggregate
 
         //idempotent
         if ($this->done) {
-            yield new ATodoWasUnmarkedAsDone();
+            yield new ATodoWasUnmarkedAsDone($command->getId());
         }
     }
 

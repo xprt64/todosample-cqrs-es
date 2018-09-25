@@ -19,13 +19,12 @@ RUN ["cp", "/etc/apache2/mods-available/rewrite.load", "/etc/apache2/mods-enable
 COPY deploy/php.ini /usr/local/etc/php/conf.d/
 COPY deploy/apache-site.conf  /etc/apache2/sites-enabled/000-default.conf
 
-COPY ./ /var/www/
+RUN apt-get -y install cron && mkdir -p /var/log/app
 
+COPY ./ /var/www/
 
 ADD deploy/cron /etc/cron.d/app
 RUN chmod +x /etc/cron.d/app
-
-RUN apt-get -y install cron && mkdir -p /var/log/app
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 

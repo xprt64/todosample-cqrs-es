@@ -3,3 +3,4 @@ composer.phar
 data/
 clover.xml
 coveralls-upload.json
+vendor/
